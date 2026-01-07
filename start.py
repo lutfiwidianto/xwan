@@ -43,22 +43,11 @@ try:
     from app.service.git import auto_update
     auto_update()
 except (ImportError, ModuleNotFoundError):
-    # Fallback: coba load file git.py lokal (satu folder dengan xwan.py)
-    _here = os.path.dirname(os.path.abspath(__file__))
-    _local_git = os.path.join(_here, "git.py")
-    if os.path.isfile(_local_git):
-        try:
-            spec = importlib.util.spec_from_file_location("xwan_local_git", _local_git)
-            mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)  # type: ignore
-            if hasattr(mod, "auto_update"):
-                mod.auto_update()
-            else:
-                emergency_repair()
-        except Exception:
-            emergency_repair()
-    else:
-        # Jika file git.py tidak ditemukan, langsung lari ke pemulihan
+    # fallback: pakai lokasi yang kamu mau (service/git.py)
+    try:
+        from service.git import auto_update
+        auto_update()
+    except (ImportError, ModuleNotFoundError):
         emergency_repair()
 
 from colorama import Fore, Style, init
