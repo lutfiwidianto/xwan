@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+import requests
+import random
+import socket
+import os
+from bs4 import BeautifulSoup
+from colorama import Fore, Style
+
+def user_agent():
+    try:
+        with open("user-agents.txt", "r") as f:
+            ua = f.read().splitlines()
+        return random.choice(ua)
+    except:
+        return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+
+def get_ip(domain):
+    try:
+        return socket.gethostbyname(domain)
+    except:
+        return None
+
+def get_data(url):
+    try:
+        headers = {'User-Agent': user_agent()}
+        r = requests.get(url, headers=headers, timeout=10).text
+        soup = BeautifulSoup(r, 'html.parser')
+        tbody = soup.find('tbody')
+        results = set()
+        if tbody:
+            for row in tbody.find_all('tr'):
+                cells = row.find_all('td')
+                if cells:
+                    domain = cells[0].text.strip().rstrip('.')
+                    results.add(domain)
+        return results
+    except:
+        return set()
+
+def search_by_keyword():
+    print(f"{Fore.GREEN}--- SMART PRIORITY SCANNER (CLEAN LIST) ---{Style.RESET_ALL}")
+    keyword = input(f"{Fore.YELLOW}[*] Masukkan Keyword/Domain Utama : {Style.RESET_ALL}").strip()
+    if not keyword: return
+
+    # Mencari titik acuan IP (Reference)
+    ref_ip = get_ip(keyword)
+    ref_base = ".".join(ref_ip.split(".")[:2]) if ref_ip else None
+    
+    file_name = input(f"{Fore.YELLOW}[*] Nama file simpan : {Style.RESET_ALL}").strip() or "clean_targets.txt"
+    if not file_name.endswith(".txt"): file_name += ".txt"
+
+    print(f"{Fore.CYAN}[*] Mengumpulkan data dan menyusun prioritas...{Style.RESET_ALL}")
+    
+    # Ambil data dari dua endpoint (Search & Subdomain)
+    all_results = get_data(f"https://rapiddns.io/s/{keyword}?full=1&down=0")
+    if "." in keyword:
+        all_results.update(get_data(f"https://rapiddns.io/subdomain/{keyword}?full=1&down=0"))
+
+    if all_results:
+        # Kategorisasi untuk urutan prioritas
+        top_priority = []    # IP satu subnet (Paling Berpotensi)
+        mid_priority = []    # Subdomain langsung (Sangat Berpotensi)
+        low_priority = []    # Hanya kesamaan kata kunci (Potensi Tambahan)
+
+        for domain in all_results:
+            target_ip = get_ip(domain)
+            
+            # Cek Level 1: Kesamaan Infrastruktur IP
+            if target_ip and ref_base and target_ip.startswith(ref_base):
+                top_priority.append(domain)
+            # Cek Level 2: Subdomain Resmi
+            elif keyword in domain and "." in keyword:
+                mid_priority.append(domain)
+            # Cek Level 3: Sisanya
+            else:
+                low_priority.append(domain)
+
+        # Urutkan tiap level
+        top_priority.sort(); mid_priority.sort(); low_priority.sort()
+
+        # Gabungkan semua (Tidak ada yang dibuang)
+        final_list = top_priority + mid_priority + low_priority
+
+        # Simpan ke file (Format Bersih: Hanya domain per baris)
+        with open(file_name, 'w') as f:
+            for dom in final_list:
+                f.write(dom + '\n')
+                
+                # Tampilan di terminal (tetap diberi label agar user tahu mana yang HOT)
+                if dom in top_priority:
+                    print(f"{Fore.GREEN}[HOT] {dom}{Style.RESET_ALL}")
+                elif dom in mid_priority:
+                    print(f"{Fore.CYAN}[SUB] {dom}{Style.RESET_ALL}")
+                else:
+                    print(f"[*] {dom}")
+        
+        print(f"\n{Fore.GREEN}[!] Berhasil! {len(final_list)} domain disimpan ke {file_name}")
+        print(f"[!] Urutan file: Prioritas tertinggi ditaruh paling atas.{Style.RESET_ALL}")
+    else:
+        print(f"{Fore.RED}[!] Tidak ada data ditemukan.{Style.RESET_ALL}")

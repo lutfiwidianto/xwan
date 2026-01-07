@@ -28,7 +28,7 @@ def create_xray_config(server_config, target_address=None, sni_address=None):
         stream_settings["security"] = "tls"
         stream_settings["tlsSettings"] = {
             "serverName": sni_host,
-            "allowInsecure": False,
+            "allowInsecure": True,
             "fingerprint": server_config['fp']
         }
         if server_config.get('alpn'):
@@ -112,7 +112,7 @@ def create_xray_config_wildcard(server_config, target_address):
         stream_settings["security"] = "tls"
         stream_settings["tlsSettings"] = {
             "serverName": sni_host,  
-            "allowInsecure": False,
+            "allowInsecure": True,
             "fingerprint": server_config['fp']
         }
         if server_config.get('alpn'):

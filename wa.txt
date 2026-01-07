@@ -1,0 +1,10 @@
+graph.facebook.com
+media-sin6-3.cdn.whatsapp.net
+media-sin2-2.cdn.whatsapp.net
+v.whatsapp.net
+c.whatsapp.net
+157.240.7.20
+157.240.15.60
+157.240.13.60
+57.144.153.33
+57.144.161.32

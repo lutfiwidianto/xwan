@@ -1,0 +1,47 @@
+{
+  "inbounds": [
+    {
+      "port": 10808,
+      "protocol": "socks",
+      "listen": "127.0.0.1",
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "media.fcgk4-5.fna.whatsapp.net",
+            "port": 443,
+            "users": [
+              {
+                "id": "e5092f51-75bb-4759-be6b-90a89f4bd01b",
+                "security": "tls"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "wijaya-id.segss.xyz",
+          "allowInsecure": true,
+          "fingerprint": "chrome"
+        },
+        "wsSettings": {
+          "path": "/vmess",
+          "headers": {
+            "Host": "wijaya-id.segss.xyz"
+          }
+        }
+      }
+    }
+  ]
+}
