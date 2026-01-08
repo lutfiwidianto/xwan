@@ -1,7 +1,10 @@
-www.iflix.com:80
-www.iflix.com:443
-api.iflix.com:80
-cdn.iflix.com:80
-stream.iflix.com:443
-iflix.com:80
-iflix.com:443
+# Coba gateway/router jaringan
+192.168.1.1:80
+192.168.1.1:8080
+10.0.0.1:80
+10.0.0.1:8080
+
+# DNS server ISP
+202.152.240.50:80  # DNS XL
+8.8.8.8:80         # Google DNS (sering di-whitelist)
+1.1.1.1:80         # Cloudflare DNS

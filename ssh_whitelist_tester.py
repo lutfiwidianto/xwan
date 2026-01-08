@@ -3,14 +3,14 @@
 SSH Whitelist Bypass Tester
 Untuk menguji kerentanan bug domain/whitelist provider (seperti XL dengan kuota iflix)
 Author: Security Tester
-Version: 2.1 - Support Multiple Domain Input
+Version: 2.2 - Fixed EXTRA_HEADERS Scope Issue
 """
 
 import json
 import socket
 import ssl
 import time
-import dns.resolver
+import datetime
 from pathlib import Path
 from colorama import Fore, Style, init
 
@@ -30,9 +30,6 @@ ACCOUNTS_FILE = Path(r"c:\xwan\ssh_accounts.json")
 # Port yang akan di-test untuk SSH
 SSH_PORTS = [22, 80, 443]
 
-# Domain whitelist (akan diisi dari input)
-WHITELIST_DOMAINS = []
-
 # HTTP Methods
 METHODS = ["GET", "POST", "PATCH", "PUT", "HEAD", "OPTIONS", "CONNECT"]
 
@@ -46,6 +43,19 @@ TLS_PORTS = {443, 8443, 2053, 2083}
 
 # Enable split payload
 ENABLE_SPLIT = True
+
+# Default headers
+DEFAULT_EXTRA_HEADERS = [
+    ("X-Online-Host", "{host}"),
+    ("X-Forward-Host", "{host}"),
+    ("X-Host", "{host}"),
+    ("X-Forwarded-For", "127.0.0.1"),
+    ("X-Real-IP", "127.0.0.1"),
+    ("CF-Connecting-IP", "127.0.0.1"),
+    ("X-Original-Host", "www.iflix.com"),
+    ("Forwarded", "for=127.0.0.1;host=www.iflix.com;proto=https"),
+    ("Via", "1.1 iflix.com"),
+]
 
 # ========== FUNGSI UTILITAS ==========
 def parse_host_port(line):
@@ -245,8 +255,6 @@ def try_payload(proxy_host, proxy_port, use_tls, sni_host, raw_payload, split_at
 
 def generate_ssh_config(payload_display, proxy_host, proxy_port, whitelist_domain, ssh_host, ssh_port, username, password):
     """Generate konfigurasi SSH untuk koneksi berhasil"""
-    import datetime
-    
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     config = f"""
 # ===========================================
@@ -299,8 +307,6 @@ Host ssh-whitelist-{timestamp}
 
 def write_result(payload_display, proxy_host, proxy_port, whitelist_domain, ssh_host, ssh_port, username, password, ssl_value):
     """Tulis hasil ke file"""
-    import datetime
-    
     lines = [
         "=" * 50,
         f"SSH WHITELIST BYPASS RESULT",
@@ -569,7 +575,7 @@ def get_extra_headers():
     choice = input(f"\n{Fore.YELLOW}[?] Pilih (1-2): {Style.RESET_ALL}").strip()
     
     if choice == "1":
-        return EXTRA_HEADERS
+        return DEFAULT_EXTRA_HEADERS
     elif choice == "2":
         headers = []
         print(f"\n{Fore.YELLOW}[*] Format: HeaderName: HeaderValue{Style.RESET_ALL}")
@@ -589,12 +595,12 @@ def get_extra_headers():
         
         if not headers:
             print(f"{Fore.YELLOW}[!] Menggunakan header default{Style.RESET_ALL}")
-            return EXTRA_HEADERS
+            return DEFAULT_EXTRA_HEADERS
         
         return headers
     else:
         print(f"{Fore.YELLOW}[!] Menggunakan header default{Style.RESET_ALL}")
-        return EXTRA_HEADERS
+        return DEFAULT_EXTRA_HEADERS
 
 
 def quick_check(proxy_host, port_candidates, ssh_host, ssh_port, username, password, whitelist_domain=None):
@@ -645,14 +651,22 @@ def resolve_domains(domains):
     """Resolve domain ke IP addresses"""
     resolved = {}
     
-    for domain in domains:
-        try:
-            answers = dns.resolver.resolve(domain, 'A')
-            ips = [str(rdata) for rdata in answers]
-            resolved[domain] = ips
-            print(f"{Fore.GREEN}[✓] {domain} -> {', '.join(ips)}{Style.RESET_ALL}")
-        except Exception as e:
-            print(f"{Fore.YELLOW}[!] Tidak bisa resolve {domain}: {e}{Style.RESET_ALL}")
+    # Coba import dnspython, jika tidak ada, skip resolving
+    try:
+        import dns.resolver
+        
+        for domain in domains:
+            try:
+                answers = dns.resolver.resolve(domain, 'A')
+                ips = [str(rdata) for rdata in answers]
+                resolved[domain] = ips
+                print(f"{Fore.GREEN}[✓] {domain} -> {', '.join(ips)}{Style.RESET_ALL}")
+            except Exception as e:
+                print(f"{Fore.YELLOW}[!] Tidak bisa resolve {domain}: {e}{Style.RESET_ALL}")
+                resolved[domain] = []
+    except ImportError:
+        print(f"{Fore.YELLOW}[!] Module dnspython tidak tersedia, skip DNS resolving{Style.RESET_ALL}")
+        for domain in domains:
             resolved[domain] = []
     
     return resolved
@@ -662,7 +676,7 @@ def ssh_whitelist_test():
     """Main function"""
     print(f"\n{Fore.CYAN}=" * 60)
     print(f"SSH WHITELIST BYPASS TESTER")
-    print(f"Version 2.1 - Multi Domain Support")
+    print(f"Version 2.2 - Multi Domain Support")
     print("=" * 60 + f"{Style.RESET_ALL}\n")
     
     # Pilih akun SSH
@@ -686,7 +700,7 @@ def ssh_whitelist_test():
     for i, domain in enumerate(whitelist_domains, 1):
         print(f"  {i}. {domain}")
     
-    # Resolve domain ke IP
+    # Resolve domain ke IP (optional)
     print(f"\n{Fore.CYAN}[*] Resolving domains...{Style.RESET_ALL}")
     resolved_ips = resolve_domains(whitelist_domains)
     
