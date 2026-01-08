@@ -2,7 +2,7 @@
 #xwan v.3.0 modded with Auto-All-Mode
 import os
 from colorama import Fore, Style, init
-from modules import parse, config, test_xray, ssh, subdomain, onering, revip
+from modules import parse, config, test_xray, ssh_ws, subdomain, onering, revip
 from utils import helpers
 from core import check
 from modules import keyword_search
@@ -22,7 +22,7 @@ def main():
     
     # Handle fitur selain scanning Xray
     if choice == "5":
-        ssh.ssh_connection()
+        ssh_ws.ssh_ws_connection()
         return
     if choice == "6":
         subdomain.Subdomain()
