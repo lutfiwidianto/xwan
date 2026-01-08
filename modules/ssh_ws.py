@@ -1,12 +1,17 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
+import json
 import socket
 import ssl
 import time
+from pathlib import Path
 
 from colorama import Fore, Style
 
 DEFAULT_TIMEOUT = 8
+QUICK_TIMEOUT = 3
 OUTPUT_FILE = "Result_sshws.txt"
+ACCOUNTS_FILE = Path(r"c:\xwan\ssh_accounts.json")
+
 SSH_PORTS = [22, 80, 443]
 
 METHODS = ["GET", "POST", "PATCH", "PUT", "HEAD", "OPTIONS", "CONNECT"]
@@ -115,10 +120,10 @@ def _open_socket(proxy_host, proxy_port, use_tls, sni_host, timeout):
     return sock
 
 
-def _try_payload(proxy_host, proxy_port, use_tls, sni_host, raw_payload, split_at, ssh_host, ssh_port, username, password):
+def _try_payload(proxy_host, proxy_port, use_tls, sni_host, raw_payload, split_at, ssh_host, ssh_port, username, password, timeout):
     sock = None
     try:
-        sock = _open_socket(proxy_host, proxy_port, use_tls, sni_host, DEFAULT_TIMEOUT)
+        sock = _open_socket(proxy_host, proxy_port, use_tls, sni_host, timeout)
         if split_at:
             sock.sendall(raw_payload[:split_at].encode())
             time.sleep(SPLIT_DELAY)
@@ -170,14 +175,136 @@ def _unique_list(values):
     return result
 
 
-def ssh_ws_connection():
-    ssh_host = input("[*] Host SSH : ").strip()
-    if not ssh_host:
-        print(f"{Fore.RED}[!] Host SSH kosong{Style.RESET_ALL}")
-        return
+def _load_accounts():
+    if not ACCOUNTS_FILE.exists():
+        return []
+    try:
+        return json.loads(ACCOUNTS_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return []
 
-    username = input("[*] Username : ").strip()
-    password = input("[*] Password : ").strip()
+
+def _save_accounts(accounts):
+    ACCOUNTS_FILE.write_text(json.dumps(accounts, indent=2), encoding="utf-8")
+
+
+def _select_account():
+    accounts = _load_accounts()
+    while True:
+        print(f"{Fore.CYAN}[*] SSH Accounts{Style.RESET_ALL}")
+        for idx, acc in enumerate(accounts, 1):
+            print(f"[{idx}] {acc['host']} | {acc['username']}")
+        print(f"[{len(accounts) + 1}] Tambah akun baru")
+        print(f"[{len(accounts) + 2}] Edit akun")
+        print(f"[{len(accounts) + 3}] Hapus akun")
+        print(f"[{len(accounts) + 4}] Lanjut tanpa simpan")
+
+        choice = input("[*] Pilih: ").strip()
+        if not choice.isdigit():
+            print(f"{Fore.RED}[!] Pilihan tidak valid{Style.RESET_ALL}")
+            continue
+
+        choice_num = int(choice)
+        if 1 <= choice_num <= len(accounts):
+            return accounts[choice_num - 1]
+
+        if choice_num == len(accounts) + 1:
+            host = input("[*] Host SSH : ").strip()
+            username = input("[*] Username : ").strip()
+            password = input("[*] Password : ").strip()
+            if not host or not username:
+                print(f"{Fore.RED}[!] Host/Username wajib{Style.RESET_ALL}")
+                continue
+            new_acc = {"host": host, "username": username, "password": password}
+            accounts.append(new_acc)
+            _save_accounts(accounts)
+            print(f"{Fore.GREEN}[!] Akun disimpan.{Style.RESET_ALL}")
+            return new_acc
+
+        if choice_num == len(accounts) + 2:
+            if not accounts:
+                print(f"{Fore.RED}[!] Tidak ada akun untuk diedit{Style.RESET_ALL}")
+                continue
+            idx = input("[*] Pilih akun untuk edit: ").strip()
+            if not idx.isdigit() or not (1 <= int(idx) <= len(accounts)):
+                print(f"{Fore.RED}[!] Pilihan tidak valid{Style.RESET_ALL}")
+                continue
+            acc = accounts[int(idx) - 1]
+            host = input(f"[*] Host SSH (enter untuk tetap): {acc['host']} ").strip() or acc["host"]
+            username = input(f"[*] Username (enter untuk tetap): {acc['username']} ").strip() or acc["username"]
+            password = input("[*] Password (enter untuk tetap): ").strip() or acc["password"]
+            accounts[int(idx) - 1] = {"host": host, "username": username, "password": password}
+            _save_accounts(accounts)
+            print(f"{Fore.GREEN}[!] Akun diperbarui.{Style.RESET_ALL}")
+            continue
+
+        if choice_num == len(accounts) + 3:
+            if not accounts:
+                print(f"{Fore.RED}[!] Tidak ada akun untuk dihapus{Style.RESET_ALL}")
+                continue
+            idx = input("[*] Pilih akun untuk hapus: ").strip()
+            if not idx.isdigit() or not (1 <= int(idx) <= len(accounts)):
+                print(f"{Fore.RED}[!] Pilihan tidak valid{Style.RESET_ALL}")
+                continue
+            removed = accounts.pop(int(idx) - 1)
+            _save_accounts(accounts)
+            print(f"{Fore.GREEN}[!] Akun dihapus: {removed['host']}{Style.RESET_ALL}")
+            continue
+
+        if choice_num == len(accounts) + 4:
+            host = input("[*] Host SSH : ").strip()
+            username = input("[*] Username : ").strip()
+            password = input("[*] Password : ").strip()
+            return {"host": host, "username": username, "password": password}
+
+        print(f"{Fore.RED}[!] Pilihan tidak valid{Style.RESET_ALL}")
+
+
+def _quick_check(proxy_host, port_candidates, ssh_host, username, password):
+    quick_payloads = [
+        ("GET_WS", "GET /ws HTTP/1.1\r\nHost: {host}\r\nConnection: Keep-Alive\r\nUpgrade: websocket\r\n\r\n", None),
+        ("CONNECT_SSH", "CONNECT {ssh_host}:{ssh_port} HTTP/1.1\r\nHost: {host}\r\nConnection: Keep-Alive\r\n\r\n", None),
+    ]
+
+    for port in port_candidates:
+        use_tls = port in TLS_PORTS
+        sni_candidates = [ssh_host, proxy_host] if use_tls else [""]
+        sni_candidates = _unique_list(sni_candidates)
+        header_hosts = _unique_list([proxy_host, ssh_host])
+
+        for sni_host in sni_candidates:
+            for header_host in header_hosts:
+                host_header = _format_host_header(header_host, port)
+                for ssh_port in SSH_PORTS:
+                    for name, template, _ in quick_payloads:
+                        raw_payload = template.format(host=host_header, ssh_host=ssh_host, ssh_port=ssh_port)
+                        ok = _try_payload(
+                            proxy_host,
+                            port,
+                            use_tls,
+                            sni_host,
+                            raw_payload,
+                            None,
+                            ssh_host,
+                            ssh_port,
+                            username,
+                            password,
+                            QUICK_TIMEOUT,
+                        )
+                        if ok:
+                            return True
+    return False
+
+
+def ssh_ws_connection():
+    account = _select_account()
+    ssh_host = account.get("host", "").strip()
+    username = account.get("username", "").strip()
+    password = account.get("password", "").strip()
+
+    if not ssh_host or not username:
+        print(f"{Fore.RED}[!] Host/Username wajib{Style.RESET_ALL}")
+        return
 
     proxy_file = input(f"{Fore.YELLOW}[*] List web/ip (txt) : {Style.RESET_ALL}").strip()
     try:
@@ -196,6 +323,12 @@ def ssh_ws_connection():
             continue
 
         port_candidates = [proxy_port] if proxy_port else PORTS
+        print(f"{Fore.CYAN}[{i}/{len(proxies)}] Stage 1/2 Quick Check: {proxy_host}{Style.RESET_ALL}")
+        if not _quick_check(proxy_host, port_candidates, ssh_host, username, password):
+            print(f"{Fore.RED}SKIP (no quick hit){Style.RESET_ALL} - {proxy_host}")
+            continue
+
+        print(f"{Fore.GREEN}[{i}/{len(proxies)}] Stage 2/2 Full Test: {proxy_host}{Style.RESET_ALL}")
         success_for_proxy = False
 
         for port in port_candidates:
@@ -206,16 +339,22 @@ def ssh_ws_connection():
 
             for sni_host in sni_candidates:
                 tls_label = f"TLS SNI={sni_host}" if use_tls else "HTTP"
-                print(f"{Fore.YELLOW}[{i}/{len(proxies)}] Testing {proxy_host}:{port} ({tls_label}){Style.RESET_ALL}")
+                print(f"{Fore.YELLOW}  Testing {proxy_host}:{port} ({tls_label}){Style.RESET_ALL}")
 
                 for header_host in header_hosts:
                     host_header = _format_host_header(header_host, port)
                     host_only = header_host
 
                     for extra_headers in header_combos:
+                        payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port=SSH_PORTS[0], extra_headers=extra_headers)
+                        payload_count = len(payloads) * len(SSH_PORTS)
+                        progress = 0
+
                         for ssh_port in SSH_PORTS:
                             payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port, extra_headers)
                             for name, raw_payload, display_payload, split_at in payloads:
+                                progress += 1
+                                print(f"    Payload {progress}/{payload_count} ({name})", end="\r")
                                 ok = _try_payload(
                                     proxy_host,
                                     port,
@@ -227,11 +366,12 @@ def ssh_ws_connection():
                                     ssh_port,
                                     username,
                                     password,
+                                    DEFAULT_TIMEOUT,
                                 )
                                 if ok:
                                     ssl_value = sni_host if use_tls else ""
                                     _write_result(display_payload, proxy_host, port, ssh_host, ssh_port, username, password, ssl_value)
-                                    print(f"{Fore.GREEN}CONNECTED{Style.RESET_ALL} - {proxy_host}:{port} ({name}) SSH:{ssh_port}")
+                                    print(f"{Fore.GREEN}CONNECTED{Style.RESET_ALL} - {proxy_host}:{port} ({name}) SSH:{ssh_port}        ")
                                     success_count += 1
                                     success_for_proxy = True
 
