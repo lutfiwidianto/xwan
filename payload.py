@@ -252,9 +252,9 @@ def _run_multihost_report_worker(selected_host: str, path: str, ip: str, ua: str
 
     # host pairs logic
     host_pairs = []
-    host_pairs.append((ssh_host, ssh_host, "Host:SSH"))
-    host_pairs.append((selected_host, selected_host, "Host:BUG"))
-    host_pairs.append((selected_host, ssh_host, "Host:MIX(Bug+SSH)"))
+    host_pairs.append((ssh_host, ssh_host, "SSH"))
+    host_pairs.append((selected_host, selected_host, "BUG"))
+    host_pairs.append((selected_host, ssh_host, "MIX(Bug+SSH)"))
 
     all_payloads: List[dict] = []
     for tname in ["CF", "Normal", "WS_Single", "WS_Double", "Split"]:
