@@ -21,6 +21,8 @@ PORTS = [80, 443, 8080, 8880, 2082, 2083, 8443, 2052, 2053]
 TLS_PORTS = {443, 8443, 2053, 2083}
 ENABLE_SPLIT = True
 SPLIT_DELAY = 0.3
+SNI_TIMEOUT = 3
+PAYLOAD_ONLY_TIMEOUT = 3
 
 EXTRA_HEADERS = [
     ("X-Online-Host", "{host}"),
@@ -118,6 +120,63 @@ def _open_socket(proxy_host, proxy_port, use_tls, sni_host, timeout):
         sock = context.wrap_socket(sock, server_hostname=sni_host or proxy_host)
     sock.settimeout(timeout)
     return sock
+
+
+def _check_sni(proxy_host, sni_host, timeout):
+    sock = None
+    try:
+        sock = _open_socket(proxy_host, 443, True, sni_host, timeout)
+        sock.sendall(f"GET / HTTP/1.1\r\nHost: {sni_host}\r\n\r\n".encode())
+        data = sock.recv(1024)
+        return b"HTTP/" in data
+    except Exception:
+        return False
+    finally:
+        if sock:
+            try:
+                sock.close()
+            except Exception:
+                pass
+
+
+def _try_http_payload(proxy_host, proxy_port, use_tls, sni_host, raw_payload, split_at, timeout):
+    sock = None
+    try:
+        sock = _open_socket(proxy_host, proxy_port, use_tls, sni_host, timeout)
+        if split_at:
+            sock.sendall(raw_payload[:split_at].encode())
+            time.sleep(SPLIT_DELAY)
+            sock.sendall(raw_payload[split_at:].encode())
+        else:
+            sock.sendall(raw_payload.encode())
+        time.sleep(1)
+        response = sock.recv(4096)
+        return response
+    except Exception:
+        return b""
+    finally:
+        if sock:
+            try:
+                sock.close()
+            except Exception:
+                pass
+
+
+def _status_line_from_response(response):
+    if not response:
+        return ""
+    return response.split(b"\r\n", 1)[0].decode("utf-8", errors="ignore")
+
+
+def _is_http_hit(status_line):
+    if not status_line:
+        return False
+    if "HTTP/" not in status_line:
+        return False
+    for code in ("200", "101", "301", "302", "400", "403", "500"):
+        if code in status_line:
+            return True
+    return False
 
 
 def _try_payload(proxy_host, proxy_port, use_tls, sni_host, raw_payload, split_at, ssh_host, ssh_port, username, password, timeout):
@@ -314,6 +373,7 @@ def ssh_ws_connection():
         print(f"{Fore.RED}[!] File {proxy_file} tidak ditemukan!{Style.RESET_ALL}")
         return
 
+    scan_mode = input(f"{Fore.YELLOW}[*] Mode (1=Normal, 2=Scan All): {Style.RESET_ALL}").strip() or "1"
     success_count = 0
     header_combos = _header_combinations(EXTRA_HEADERS)
 
@@ -321,6 +381,42 @@ def ssh_ws_connection():
         proxy_host, proxy_port = _parse_host_port(proxy_line)
         if not proxy_host:
             continue
+
+        if scan_mode == "2":
+            sni_candidates = []
+            if proxy_host and not proxy_host.replace(".", "").isdigit():
+                sni_candidates.append(proxy_host)
+            if ssh_host:
+                sni_candidates.append(ssh_host)
+            sni_candidates = _unique_list(sni_candidates)
+            if sni_candidates:
+                print(f"{Fore.CYAN}[{i}/{len(proxies)}] SNI Check (443): {proxy_host}{Style.RESET_ALL}")
+                for sni in sni_candidates:
+                    ok = _check_sni(proxy_host, sni, SNI_TIMEOUT)
+                    status = f"{Fore.GREEN}HIT{Style.RESET_ALL}" if ok else f"{Fore.RED}FAIL{Style.RESET_ALL}"
+                    print(f"  SNI {sni} -> {status}")
+
+            print(f"{Fore.CYAN}[{i}/{len(proxies)}] Payload Only (80): {proxy_host}{Style.RESET_ALL}")
+            payload_port = proxy_port or 80
+            header_hosts = _unique_list([proxy_host, ssh_host])
+            for header_host in header_hosts:
+                host_header = _format_host_header(header_host, payload_port)
+                host_only = header_host
+                for extra_headers in header_combos:
+                    payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port=SSH_PORTS[0], extra_headers=extra_headers)
+                    for name, raw_payload, display_payload, split_at in payloads:
+                        response = _try_http_payload(
+                            proxy_host,
+                            payload_port,
+                            False,
+                            None,
+                            raw_payload,
+                            split_at,
+                            PAYLOAD_ONLY_TIMEOUT,
+                        )
+                        status_line = _status_line_from_response(response)
+                        if _is_http_hit(status_line):
+                            print(f"  {Fore.GREEN}HIT{Style.RESET_ALL} {name} -> {status_line}")
 
         port_candidates = [proxy_port] if proxy_port else PORTS
         print(f"{Fore.CYAN}[{i}/{len(proxies)}] Stage 1/2 Quick Check: {proxy_host}{Style.RESET_ALL}")
