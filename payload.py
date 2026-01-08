@@ -186,17 +186,12 @@ def print_hit(method: str, host: str, status_line: str, ok: bool) -> None:
     )
 
 
-def run_multihost_report(selected_host: str, path: str, ip: str, ua: str) -> None:
-    """Run scans using different Host header variants but keep SNI as the selected host.
-    This produces a grouped report similar to the requested format.
-    """
-        # compatibility wrapper: use provided ssh_host or try to load first SSH account
-        ssh_host = ssh_host
-        if ssh_host is None:
-            accs = load_accounts()
-            ssh_host = accs[0]["host"] if accs else "SSH"
-        # call the real worker
-        _run_multihost_report_worker(selected_host, path, ip, ua, ssh_host)
+def run_multihost_report(selected_host: str, path: str, ip: str, ua: str, ssh_host: Optional[str] = None) -> None:
+    """Compatibility wrapper: choose SSH host if not provided, then call worker."""
+    if ssh_host is None:
+        accs = load_accounts()
+        ssh_host = accs[0]["host"] if accs else "SSH"
+    _run_multihost_report_worker(selected_host, path, ip, ua, ssh_host)
 
 
 def build_payload_from_template(template_raw: str, method: str, host_primary: str, host_secondary: str, ua: str) -> str:
