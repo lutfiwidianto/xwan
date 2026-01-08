@@ -389,12 +389,20 @@ def ssh_ws_connection():
             if ssh_host:
                 sni_candidates.append(ssh_host)
             sni_candidates = _unique_list(sni_candidates)
+            sni_hit = True
             if sni_candidates:
+                sni_hit = False
                 print(f"{Fore.CYAN}[{i}/{len(proxies)}] SNI Check (443): {proxy_host}{Style.RESET_ALL}")
                 for sni in sni_candidates:
                     ok = _check_sni(proxy_host, sni, SNI_TIMEOUT)
                     status = f"{Fore.GREEN}HIT{Style.RESET_ALL}" if ok else f"{Fore.RED}FAIL{Style.RESET_ALL}"
                     print(f"  {sni} -> {status}")
+                    if ok:
+                        sni_hit = True
+
+            if not sni_hit:
+                print(f"{Fore.RED}SKIP full test (SNI FAIL){Style.RESET_ALL} - {proxy_host}")
+                continue
 
             print(f"{Fore.CYAN}[{i}/{len(proxies)}] Payload Only (80): {proxy_host}{Style.RESET_ALL}")
             payload_port = proxy_port or 80
