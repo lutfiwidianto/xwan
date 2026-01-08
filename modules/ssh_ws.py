@@ -7,6 +7,7 @@ from colorama import Fore, Style
 
 DEFAULT_TIMEOUT = 8
 OUTPUT_FILE = "Result_sshws.txt"
+SSH_PORTS = [22, 80, 443]
 
 METHODS = ["GET", "POST", "PATCH", "PUT", "HEAD", "OPTIONS", "CONNECT"]
 PATHS = ["/", "/ws", "/websocket", "/wss", "/proxy", "/connect"]
@@ -175,12 +176,6 @@ def ssh_ws_connection():
         print(f"{Fore.RED}[!] Host SSH kosong{Style.RESET_ALL}")
         return
 
-    try:
-        ssh_port = int(input("[*] SSH Port : ").strip())
-    except ValueError:
-        print(f"{Fore.RED}[!] SSH Port tidak valid{Style.RESET_ALL}")
-        return
-
     username = input("[*] Username : ").strip()
     password = input("[*] Password : ").strip()
 
@@ -218,26 +213,27 @@ def ssh_ws_connection():
                     host_only = header_host
 
                     for extra_headers in header_combos:
-                        payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port, extra_headers)
-                        for name, raw_payload, display_payload, split_at in payloads:
-                            ok = _try_payload(
-                                proxy_host,
-                                port,
-                                use_tls,
-                                sni_host,
-                                raw_payload,
-                                split_at,
-                                ssh_host,
-                                ssh_port,
-                                username,
-                                password,
-                            )
-                            if ok:
-                                ssl_value = sni_host if use_tls else ""
-                                _write_result(display_payload, proxy_host, port, ssh_host, ssh_port, username, password, ssl_value)
-                                print(f"{Fore.GREEN}CONNECTED{Style.RESET_ALL} - {proxy_host}:{port} ({name})")
-                                success_count += 1
-                                success_for_proxy = True
+                        for ssh_port in SSH_PORTS:
+                            payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port, extra_headers)
+                            for name, raw_payload, display_payload, split_at in payloads:
+                                ok = _try_payload(
+                                    proxy_host,
+                                    port,
+                                    use_tls,
+                                    sni_host,
+                                    raw_payload,
+                                    split_at,
+                                    ssh_host,
+                                    ssh_port,
+                                    username,
+                                    password,
+                                )
+                                if ok:
+                                    ssl_value = sni_host if use_tls else ""
+                                    _write_result(display_payload, proxy_host, port, ssh_host, ssh_port, username, password, ssl_value)
+                                    print(f"{Fore.GREEN}CONNECTED{Style.RESET_ALL} - {proxy_host}:{port} ({name}) SSH:{ssh_port}")
+                                    success_count += 1
+                                    success_for_proxy = True
 
         if not success_for_proxy:
             print(f"{Fore.RED}FAILED{Style.RESET_ALL} - {proxy_host}")
