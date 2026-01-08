@@ -394,7 +394,7 @@ def ssh_ws_connection():
                 for sni in sni_candidates:
                     ok = _check_sni(proxy_host, sni, SNI_TIMEOUT)
                     status = f"{Fore.GREEN}HIT{Style.RESET_ALL}" if ok else f"{Fore.RED}FAIL{Style.RESET_ALL}"
-                    print(f"  SNI {sni} -> {status}")
+                    print(f"  {sni} -> {status}")
 
             print(f"{Fore.CYAN}[{i}/{len(proxies)}] Payload Only (80): {proxy_host}{Style.RESET_ALL}")
             payload_port = proxy_port or 80
@@ -416,7 +416,7 @@ def ssh_ws_connection():
                         )
                         status_line = _status_line_from_response(response)
                         if _is_http_hit(status_line):
-                            print(f"  {Fore.GREEN}HIT{Style.RESET_ALL} {name} -> {status_line}")
+                            print(f"  {Fore.GREEN}{status_line}{Style.RESET_ALL}")
 
         port_candidates = [proxy_port] if proxy_port else PORTS
         print(f"{Fore.CYAN}[{i}/{len(proxies)}] Stage 1/2 Quick Check: {proxy_host}{Style.RESET_ALL}")
