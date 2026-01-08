@@ -2,10 +2,26 @@
 import socket
 import ssl
 import time
+
 from colorama import Fore, Style
 
 DEFAULT_TIMEOUT = 8
 OUTPUT_FILE = "Result_sshws.txt"
+
+METHODS = ["GET", "POST", "PATCH", "PUT", "HEAD", "OPTIONS", "CONNECT"]
+PATHS = ["/", "/ws", "/websocket", "/wss", "/proxy", "/connect"]
+WS_PATHS = {"/ws", "/websocket", "/wss"}
+PORTS = [80, 443, 8080, 8880, 2082, 2083, 8443, 2052, 2053]
+TLS_PORTS = {443, 8443, 2053, 2083}
+ENABLE_SPLIT = True
+SPLIT_DELAY = 0.3
+
+EXTRA_HEADERS = [
+    ("X-Online-Host", "{host}"),
+    ("X-Forward-Host", "{host}"),
+    ("X-Host", "{host}"),
+    ("X-Forwarded-For", "127.0.0.1"),
+]
 
 
 def _parse_host_port(line):
@@ -29,16 +45,61 @@ def _format_host_header(host, port):
     return f"{host}:{port}" if port else host
 
 
-def _build_payloads(ws_path, host_header, ssh_host, ssh_port):
-    templates = [
-        ("GET_WS", f"GET {ws_path} HTTP/1.1\r\nHost: {host_header}\r\nConnection: Keep-Alive\r\nUpgrade: websocket\r\n\r\n"),
-        ("PATCH_WS", f"PATCH {ws_path} HTTP/1.1\r\nHost: {host_header}\r\nConnection: Keep-Alive\r\nUpgrade: websocket\r\n\r\n"),
-        ("GET_HTTP", f"GET / HTTP/1.1\r\nHost: {host_header}\r\nConnection: Keep-Alive\r\n\r\n"),
-        ("CONNECT_SSH", f"CONNECT {ssh_host}:{ssh_port} HTTP/1.1\r\nHost: {host_header}\r\nConnection: Keep-Alive\r\n\r\n"),
-    ]
+def _header_combinations(headers):
+    combos = [[]]
+    for header in headers:
+        combos += [c + [header] for c in combos]
+    return combos
+
+
+def _format_extra_headers(extra_headers, host_only):
+    lines = []
+    for header_name, value_tmpl in extra_headers:
+        value = value_tmpl.format(host=host_only)
+        lines.append(f"{header_name}: {value}")
+    return lines
+
+
+def _expand_payload(raw_payload, name):
+    variants = []
+    display = _payload_to_http_custom(raw_payload)
+    variants.append((name, raw_payload, display, None))
+    if ENABLE_SPLIT:
+        split_at = len(raw_payload) // 2
+        display_split = _payload_to_http_custom(raw_payload[:split_at]) + "[split]" + _payload_to_http_custom(raw_payload[split_at:])
+        variants.append((f"{name}_SPLIT", raw_payload, display_split, split_at))
+    return variants
+
+
+def _build_payload_variants(host_header, host_only, ssh_host, ssh_port, extra_headers):
     payloads = []
-    for name, raw in templates:
-        payloads.append((name, raw, _payload_to_http_custom(raw)))
+    extra_lines = _format_extra_headers(extra_headers, host_only)
+
+    for method in METHODS:
+        if method == "CONNECT":
+            lines = [
+                f"CONNECT {ssh_host}:{ssh_port} HTTP/1.1",
+                f"Host: {host_header}",
+                "Connection: Keep-Alive",
+            ]
+            lines.extend(extra_lines)
+            raw = "\r\n".join(lines) + "\r\n\r\n"
+            payloads.extend(_expand_payload(raw, "CONNECT_SSH"))
+            continue
+
+        for path in PATHS:
+            lines = [
+                f"{method} {path} HTTP/1.1",
+                f"Host: {host_header}",
+                "Connection: Keep-Alive",
+            ]
+            if path in WS_PATHS:
+                lines.append("Upgrade: websocket")
+            lines.extend(extra_lines)
+            raw = "\r\n".join(lines) + "\r\n\r\n"
+            name_path = path.strip("/") or "root"
+            payloads.extend(_expand_payload(raw, f"{method}_{name_path}"))
+
     return payloads
 
 
@@ -53,11 +114,16 @@ def _open_socket(proxy_host, proxy_port, use_tls, sni_host, timeout):
     return sock
 
 
-def _try_payload(proxy_host, proxy_port, use_tls, sni_host, raw_payload, ssh_host, ssh_port, username, password):
+def _try_payload(proxy_host, proxy_port, use_tls, sni_host, raw_payload, split_at, ssh_host, ssh_port, username, password):
     sock = None
     try:
         sock = _open_socket(proxy_host, proxy_port, use_tls, sni_host, DEFAULT_TIMEOUT)
-        sock.sendall(raw_payload.encode())
+        if split_at:
+            sock.sendall(raw_payload[:split_at].encode())
+            time.sleep(SPLIT_DELAY)
+            sock.sendall(raw_payload[split_at:].encode())
+        else:
+            sock.sendall(raw_payload.encode())
         time.sleep(1)
         auth = f"CONNECT {username}:{password}@{ssh_host}:{ssh_port}\r\n\r\n"
         sock.sendall(auth.encode())
@@ -92,6 +158,17 @@ def _write_result(payload_display, proxy_host, proxy_port, ssh_host, ssh_port, u
         f.write("\n".join(lines))
 
 
+def _unique_list(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+    return result
+
+
 def ssh_ws_connection():
     ssh_host = input("[*] Host SSH : ").strip()
     if not ssh_host:
@@ -115,68 +192,54 @@ def ssh_ws_connection():
         print(f"{Fore.RED}[!] File {proxy_file} tidak ditemukan!{Style.RESET_ALL}")
         return
 
-    print(f"{Fore.CYAN}[1] HTTP (port 80)")
-    print(f"[2] TLS/SSL (port 443)")
-    print(f"[3] AUTO (80 lalu 443){Style.RESET_ALL}")
-    mode = input(f"{Fore.YELLOW}[*] Pilih mode (1/2/3) : {Style.RESET_ALL}").strip()
-    if mode not in {"1", "2", "3"}:
-        print(f"{Fore.RED}[!] Mode tidak valid{Style.RESET_ALL}")
-        return
-
-    sni_host = ""
-    if mode in {"2", "3"}:
-        sni_host = input(f"{Fore.YELLOW}[*] SNI (kosong = host SSH) : {Style.RESET_ALL}").strip()
-        if not sni_host:
-            sni_host = ssh_host
-
-    ws_path = input(f"{Fore.YELLOW}[*] WS Path (default /ws) : {Style.RESET_ALL}").strip()
-    if not ws_path:
-        ws_path = "/ws"
-
     success_count = 0
+    header_combos = _header_combinations(EXTRA_HEADERS)
+
     for i, proxy_line in enumerate(proxies, 1):
         proxy_host, proxy_port = _parse_host_port(proxy_line)
         if not proxy_host:
             continue
 
-        port_candidates = []
-        if proxy_port:
-            port_candidates = [proxy_port]
-        else:
-            if mode == "1":
-                port_candidates = [80]
-            elif mode == "2":
-                port_candidates = [443]
-            elif mode == "3":
-                port_candidates = [80, 443]
+        port_candidates = [proxy_port] if proxy_port else PORTS
+        success_for_proxy = False
 
-        found = False
         for port in port_candidates:
-            use_tls = mode == "2" or (mode == "3" and port == 443)
-            header_hosts = [proxy_host]
-            if sni_host and sni_host != proxy_host:
-                header_hosts.append(sni_host)
+            use_tls = port in TLS_PORTS
+            sni_candidates = [ssh_host, proxy_host] if use_tls else [""]
+            sni_candidates = _unique_list(sni_candidates)
+            header_hosts = _unique_list([proxy_host, ssh_host])
 
-            print(f"{Fore.YELLOW}[{i}/{len(proxies)}] Testing {proxy_host}:{port} ({'TLS' if use_tls else 'HTTP'}){Style.RESET_ALL}")
+            for sni_host in sni_candidates:
+                tls_label = f"TLS SNI={sni_host}" if use_tls else "HTTP"
+                print(f"{Fore.YELLOW}[{i}/{len(proxies)}] Testing {proxy_host}:{port} ({tls_label}){Style.RESET_ALL}")
 
-            for header_host in header_hosts:
-                host_header = _format_host_header(header_host, port)
-                payloads = _build_payloads(ws_path, host_header, ssh_host, ssh_port)
-                for name, raw_payload, display_payload in payloads:
-                    ok = _try_payload(proxy_host, port, use_tls, sni_host, raw_payload, ssh_host, ssh_port, username, password)
-                    if ok:
-                        ssl_value = sni_host if use_tls else ""
-                        _write_result(display_payload, proxy_host, port, ssh_host, ssh_port, username, password, ssl_value)
-                        print(f"{Fore.GREEN}CONNECTED{Style.RESET_ALL} - {proxy_host}:{port} ({name})")
-                        success_count += 1
-                        found = True
-                        break
-                if found:
-                    break
-            if found:
-                break
+                for header_host in header_hosts:
+                    host_header = _format_host_header(header_host, port)
+                    host_only = header_host
 
-        if not found:
+                    for extra_headers in header_combos:
+                        payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port, extra_headers)
+                        for name, raw_payload, display_payload, split_at in payloads:
+                            ok = _try_payload(
+                                proxy_host,
+                                port,
+                                use_tls,
+                                sni_host,
+                                raw_payload,
+                                split_at,
+                                ssh_host,
+                                ssh_port,
+                                username,
+                                password,
+                            )
+                            if ok:
+                                ssl_value = sni_host if use_tls else ""
+                                _write_result(display_payload, proxy_host, port, ssh_host, ssh_port, username, password, ssl_value)
+                                print(f"{Fore.GREEN}CONNECTED{Style.RESET_ALL} - {proxy_host}:{port} ({name})")
+                                success_count += 1
+                                success_for_proxy = True
+
+        if not success_for_proxy:
             print(f"{Fore.RED}FAILED{Style.RESET_ALL} - {proxy_host}")
 
     print(f"{Fore.CYAN}[!] Selesai. Total Berhasil: {success_count}{Style.RESET_ALL}")
