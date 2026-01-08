@@ -1,0 +1,1275 @@
+# CF | [HEAD] SSH
+HEAD /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [GET] MIX(Bug+SSH)
+GET /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [GET] SSH
+GET /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [POST] MIX(Bug+SSH)
+POST /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [CONNECT] MIX(Bug+SSH)
+CONNECT /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [HEAD] BUG
+HEAD /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [HEAD] MIX(Bug+SSH)
+HEAD /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [CONNECT] BUG
+CONNECT /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [POST] BUG
+POST /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [CONNECT] SSH
+CONNECT /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [POST] SSH
+POST /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [GET] BUG
+GET /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [OPTIONS] SSH
+OPTIONS /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [OPTIONS] MIX(Bug+SSH)
+OPTIONS /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [OPTIONS] BUG
+OPTIONS /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PUT] BUG
+PUT /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [DELETE] SSH
+DELETE /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PUT] MIX(Bug+SSH)
+PUT /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PUT] SSH
+PUT /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [DELETE] BUG
+DELETE /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [DELETE] MIX(Bug+SSH)
+DELETE /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PATCH] BUG
+PATCH /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PATCH] SSH
+PATCH /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PROPFIND] SSH
+PROPFIND /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PROPFIND] BUG
+PROPFIND /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PATCH] MIX(Bug+SSH)
+PATCH /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# CF | [PROPFIND] MIX(Bug+SSH)
+PROPFIND /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Normal | [GET] SSH
+GET http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [POST] SSH
+POST http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [HEAD] SSH
+HEAD http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [CONNECT] BUG
+CONNECT http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [CONNECT] SSH
+CONNECT http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [OPTIONS] SSH
+OPTIONS http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [POST] BUG
+POST http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [GET] BUG
+GET http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [OPTIONS] BUG
+OPTIONS http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [HEAD] BUG
+HEAD http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [DELETE] SSH
+DELETE http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [PUT] SSH
+PUT http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [PUT] BUG
+PUT http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [DELETE] BUG
+DELETE http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [PATCH] BUG
+PATCH http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [PROPFIND] BUG
+PROPFIND http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [PATCH] SSH
+PATCH http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Normal | [PROPFIND] SSH
+PROPFIND http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# Split | [GET] BUG
+GET / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [HEAD] SSH
+HEAD / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [HEAD] BUG
+HEAD / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [POST] BUG
+POST / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [GET] SSH
+GET / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [CONNECT] MIX(Bug+SSH)
+CONNECT / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [CONNECT] BUG
+CONNECT / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [POST] SSH
+POST / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [HEAD] MIX(Bug+SSH)
+HEAD / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [GET] MIX(Bug+SSH)
+GET / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [CONNECT] SSH
+CONNECT / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [POST] MIX(Bug+SSH)
+POST / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [OPTIONS] SSH
+OPTIONS / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [OPTIONS] BUG
+OPTIONS / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [OPTIONS] MIX(Bug+SSH)
+OPTIONS / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PUT] MIX(Bug+SSH)
+PUT / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PUT] SSH
+PUT / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [DELETE] BUG
+DELETE / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PUT] BUG
+PUT / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [DELETE] SSH
+DELETE / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [DELETE] MIX(Bug+SSH)
+DELETE / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PATCH] SSH
+PATCH / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PATCH] BUG
+PATCH / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PATCH] MIX(Bug+SSH)
+PATCH / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PROPFIND] MIX(Bug+SSH)
+PROPFIND / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PROPFIND] SSH
+PROPFIND / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+X-Online-Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# Split | [PROPFIND] BUG
+PROPFIND / HTTP/1.1
+Host: live.iflix.com
+X-Online-Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [GET] BUG
+GET / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [GET] MIX(Bug+SSH)
+GET / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [CONNECT] SSH
+CONNECT / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [POST] BUG
+POST / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [HEAD] MIX(Bug+SSH)
+HEAD / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [CONNECT] MIX(Bug+SSH)
+CONNECT / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [GET] SSH
+GET / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [POST] MIX(Bug+SSH)
+POST / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [HEAD] SSH
+HEAD / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [CONNECT] BUG
+CONNECT / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [HEAD] BUG
+HEAD / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [POST] SSH
+POST / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [OPTIONS] SSH
+OPTIONS / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [OPTIONS] MIX(Bug+SSH)
+OPTIONS / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [OPTIONS] BUG
+OPTIONS / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PUT] SSH
+PUT / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [DELETE] BUG
+DELETE / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PUT] BUG
+PUT / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [DELETE] SSH
+DELETE / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [DELETE] MIX(Bug+SSH)
+DELETE / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PUT] MIX(Bug+SSH)
+PUT / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PATCH] BUG
+PATCH / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PATCH] SSH
+PATCH / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PROPFIND] SSH
+PROPFIND / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PATCH] MIX(Bug+SSH)
+PATCH / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PROPFIND] BUG
+PROPFIND / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: live.iflix.com
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Double | [PROPFIND] MIX(Bug+SSH)
+PROPFIND / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Host: d3n5jwfln9l01g.cloudfront.net
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [HEAD] BUG
+HEAD / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [GET] SSH
+GET / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [POST] BUG
+POST / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [HEAD] SSH
+HEAD / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [CONNECT] BUG
+CONNECT / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [OPTIONS] SSH
+OPTIONS / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [POST] SSH
+POST / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [OPTIONS] BUG
+OPTIONS / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [CONNECT] SSH
+CONNECT / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [GET] BUG
+GET / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [PUT] SSH
+PUT / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [DELETE] SSH
+DELETE / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [PUT] BUG
+PUT / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [PROPFIND] SSH
+PROPFIND / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [PATCH] SSH
+PATCH / HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [PATCH] BUG
+PATCH / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [PROPFIND] BUG
+PROPFIND / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# WS_Single | [DELETE] BUG
+DELETE / HTTP/1.1
+Host: live.iflix.com
+Upgrade: websocket
+Connection: Upgrade
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [GET] MIX(Bug+SSH)
+GET /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [GET] SSH
+GET /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [HEAD] BUG
+HEAD /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [GET] BUG
+GET /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [HEAD] MIX(Bug+SSH)
+HEAD /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [HEAD] SSH
+HEAD /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [CONNECT] SSH
+CONNECT /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [CONNECT] BUG
+CONNECT /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [CONNECT] MIX(Bug+SSH)
+CONNECT /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [OPTIONS] MIX(Bug+SSH)
+OPTIONS /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [OPTIONS] BUG
+OPTIONS /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [OPTIONS] SSH
+OPTIONS /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PUT] SSH
+PUT /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [DELETE] SSH
+DELETE /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PUT] BUG
+PUT /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PUT] MIX(Bug+SSH)
+PUT /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [DELETE] MIX(Bug+SSH)
+DELETE /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [DELETE] BUG
+DELETE /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PATCH] MIX(Bug+SSH)
+PATCH /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PATCH] BUG
+PATCH /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PROPFIND] SSH
+PROPFIND /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PATCH] SSH
+PATCH /cdn-cgi/trace HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PROPFIND] MIX(Bug+SSH)
+PROPFIND /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [PROPFIND] BUG
+PROPFIND /cdn-cgi/trace HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+
+
+
+# HTTP80 | [GET] SSH
+GET http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [GET] BUG
+GET http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [HEAD] SSH
+HEAD http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [CONNECT] BUG
+CONNECT http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [HEAD] BUG
+HEAD http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [CONNECT] SSH
+CONNECT http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [OPTIONS] SSH
+OPTIONS http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [OPTIONS] BUG
+OPTIONS http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [PATCH] SSH
+PATCH http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [DELETE] SSH
+DELETE http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [PUT] SSH
+PUT http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [DELETE] BUG
+DELETE http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [PUT] BUG
+PUT http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [PATCH] BUG
+PATCH http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [PROPFIND] SSH
+PROPFIND http://d3n5jwfln9l01g.cloudfront.net/ HTTP/1.1
+Host: d3n5jwfln9l01g.cloudfront.net
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
+
+
+# HTTP80 | [PROPFIND] BUG
+PROPFIND http://live.iflix.com/ HTTP/1.1
+Host: live.iflix.com
+User-Agent: Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0 Mobile Safari/537.36
+Connection: Keep-Alive
+
