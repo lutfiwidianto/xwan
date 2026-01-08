@@ -407,6 +407,8 @@ def ssh_ws_connection():
             print(f"{Fore.CYAN}[{i}/{len(proxies)}] Payload Only (80): {proxy_host}{Style.RESET_ALL}")
             payload_port = proxy_port or 80
             header_hosts = _unique_list([proxy_host, ssh_host])
+            first_status = ""
+            hit_count = 0
             for header_host in header_hosts:
                 host_header = _format_host_header(header_host, payload_port)
                 host_only = header_host
@@ -424,7 +426,14 @@ def ssh_ws_connection():
                         )
                         status_line = _status_line_from_response(response)
                         if _is_http_hit(status_line):
-                            print(f"  {Fore.GREEN}{status_line}{Style.RESET_ALL}")
+                            hit_count += 1
+                            if not first_status:
+                                first_status = status_line
+
+            if first_status:
+                print(f"  Payload Only -> {Fore.GREEN}{first_status}{Style.RESET_ALL}")
+            else:
+                print(f"  Payload Only -> {Fore.RED}FAIL{Style.RESET_ALL}")
 
         port_candidates = [proxy_port] if proxy_port else PORTS
         print(f"{Fore.CYAN}[{i}/{len(proxies)}] Stage 1/2 Quick Check: {proxy_host}{Style.RESET_ALL}")
