@@ -15,7 +15,7 @@ ACCOUNTS_FILE = Path(r"c:\xwan\ssh_accounts.json")
 SSH_PORTS = [22, 80, 443]
 
 METHODS = ["GET", "POST", "PATCH", "PUT", "HEAD", "OPTIONS", "CONNECT"]
-PATHS = ["/", "/ws", "/websocket", "/wss", "/proxy", "/connect"]
+PATHS = ["/", "/ws", "/websocket", "/wss", "/proxy", "/connect", "/api", "/v1", "/v2", "/index.html", "/static", "/assets"]
 WS_PATHS = {"/ws", "/websocket", "/wss"}
 PORTS = [80, 443, 8080, 8880, 2082, 2083, 8443, 2052, 2053]
 TLS_PORTS = {443, 8443, 2053, 2083}
@@ -29,6 +29,10 @@ EXTRA_HEADERS = [
     ("X-Forward-Host", "{host}"),
     ("X-Host", "{host}"),
     ("X-Forwarded-For", "127.0.0.1"),
+    ("Referer", "https://{host}/"),
+    ("Origin", "https://{host}"),
+    ("X-Requested-With", "XMLHttpRequest"),
+    ("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"),
 ]
 
 
@@ -127,10 +131,13 @@ def _check_sni(proxy_host, sni_host, timeout):
     try:
         sock = _open_socket(proxy_host, 443, True, sni_host, timeout)
         sock.sendall(f"GET / HTTP/1.1\r\nHost: {sni_host}\r\n\r\n".encode())
-        data = sock.recv(1024)
-        return b"HTTP/" in data
+        data = sock.recv(4096)
+        if not data or b"HTTP/" not in data:
+            return ""
+        status_line = data.split(b"\r\n", 1)[0].decode("utf-8", errors="ignore")
+        return status_line
     except Exception:
-        return False
+        return ""
     finally:
         if sock:
             try:
@@ -356,7 +363,7 @@ def _quick_check(proxy_host, port_candidates, ssh_host, username, password):
 
 
 def ssh_ws_connection():
-    # New flow: allow testing one target or a list, and optionally test all saved accounts
+    # Allow testing one target or a list, and optionally test all saved accounts
     accounts = _load_accounts()
     if not accounts:
         print(f"{Fore.YELLOW}[!] Tidak ada akun tersimpan. Anda akan diminta memasukkan akun sekarang.{Style.RESET_ALL}")
@@ -389,6 +396,7 @@ def ssh_ws_connection():
             return
 
     scan_mode = input(f"{Fore.YELLOW}[*] Mode (1=Normal, 2=Scan All): {Style.RESET_ALL}").strip() or "1"
+    force_full = input(f"{Fore.YELLOW}[*] Force full test even if SNI fails? (y/N): {Style.RESET_ALL}").strip().lower() == "y"
     success_count = 0
     header_combos = _header_combinations(EXTRA_HEADERS)
 
@@ -404,6 +412,10 @@ def ssh_ws_connection():
             password = acc.get("password", "").strip()
 
             if not ssh_host or not username:
+                print(f"{Fore.RED}[!] Host/Username wajib untuk akun {ssh_host}/{username}{Style.RESET_ALL}")
+                continue
+    
+            *** End Patch
                 print(f"{Fore.RED}[!] Host/Username wajib untuk akun {ssh_host}/{username}{Style.RESET_ALL}")
                 continue
 
@@ -426,8 +438,11 @@ def ssh_ws_connection():
                             sni_hit = True
 
                 if not sni_hit:
-                    print(f"{Fore.RED}SKIP full test (SNI FAIL){Style.RESET_ALL} - {proxy_host}")
-                    continue
+                    if force_full:
+                        print(f"{Fore.YELLOW}FORCE full test enabled — proceeding despite SNI FAIL{Style.RESET_ALL} - {proxy_host}")
+                    else:
+                        print(f"{Fore.RED}SKIP full test (SNI FAIL){Style.RESET_ALL} - {proxy_host}")
+                        continue
 
                 print(f"{Fore.CYAN}[{i}/{len(proxies)}] Payload Only (80): {proxy_host}{Style.RESET_ALL}")
                 payload_port = proxy_port or 80
@@ -515,6 +530,116 @@ def ssh_ws_connection():
 
             if not success_for_proxy:
                 print(f"{Fore.RED}FAILED{Style.RESET_ALL} - {proxy_host} (account: {username})")
+=======
+        if scan_mode == "2":
+            sni_candidates = []
+            if proxy_host and not proxy_host.replace(".", "").isdigit():
+                sni_candidates.append(proxy_host)
+            if ssh_host:
+                sni_candidates.append(ssh_host)
+            sni_candidates = _unique_list(sni_candidates)
+            sni_hit = True
+            if sni_candidates:
+                sni_hit = False
+                print(f"{Fore.CYAN}[{i}/{len(proxies)}] SNI Check (443): {proxy_host}{Style.RESET_ALL}")
+                for sni in sni_candidates:
+                    ok = _check_sni(proxy_host, sni, SNI_TIMEOUT)
+                    status = f"{Fore.GREEN}HIT{Style.RESET_ALL}" if ok else f"{Fore.RED}FAIL{Style.RESET_ALL}"
+                    print(f"  {sni} -> {status}")
+                    if ok:
+                        sni_hit = True
+
+            if not sni_hit:
+                print(f"{Fore.RED}SKIP full test (SNI FAIL){Style.RESET_ALL} - {proxy_host}")
+                continue
+
+            print(f"{Fore.CYAN}[{i}/{len(proxies)}] Payload Only (80): {proxy_host}{Style.RESET_ALL}")
+            payload_port = proxy_port or 80
+            header_hosts = _unique_list([proxy_host, ssh_host])
+            first_status = ""
+            hit_count = 0
+            for header_host in header_hosts:
+                host_header = _format_host_header(header_host, payload_port)
+                host_only = header_host
+                for extra_headers in header_combos:
+                    payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port=SSH_PORTS[0], extra_headers=extra_headers)
+                    for name, raw_payload, display_payload, split_at in payloads:
+                        response = _try_http_payload(
+                            proxy_host,
+                            payload_port,
+                            False,
+                            None,
+                            raw_payload,
+                            split_at,
+                            PAYLOAD_ONLY_TIMEOUT,
+                        )
+                        status_line = _status_line_from_response(response)
+                        if _is_http_hit(status_line):
+                            hit_count += 1
+                            if not first_status:
+                                first_status = status_line
+
+            if first_status:
+                print(f"  Payload Only -> {Fore.GREEN}{first_status}{Style.RESET_ALL}")
+            else:
+                print(f"  Payload Only -> {Fore.RED}FAIL{Style.RESET_ALL}")
+
+        port_candidates = [proxy_port] if proxy_port else PORTS
+        print(f"{Fore.CYAN}[{i}/{len(proxies)}] Stage 1/2 Quick Check: {proxy_host}{Style.RESET_ALL}")
+        if not _quick_check(proxy_host, port_candidates, ssh_host, username, password):
+            print(f"{Fore.RED}SKIP (no quick hit){Style.RESET_ALL} - {proxy_host}")
+            continue
+
+        print(f"{Fore.GREEN}[{i}/{len(proxies)}] Stage 2/2 Full Test: {proxy_host}{Style.RESET_ALL}")
+        success_for_proxy = False
+
+        for port in port_candidates:
+            use_tls = port in TLS_PORTS
+            sni_candidates = [ssh_host, proxy_host] if use_tls else [""]
+            sni_candidates = _unique_list(sni_candidates)
+            header_hosts = _unique_list([proxy_host, ssh_host])
+
+            for sni_host in sni_candidates:
+                tls_label = f"TLS SNI={sni_host}" if use_tls else "HTTP"
+                print(f"{Fore.YELLOW}  Testing {proxy_host}:{port} ({tls_label}){Style.RESET_ALL}")
+
+                for header_host in header_hosts:
+                    host_header = _format_host_header(header_host, port)
+                    host_only = header_host
+
+                    for extra_headers in header_combos:
+                        payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port=SSH_PORTS[0], extra_headers=extra_headers)
+                        payload_count = len(payloads) * len(SSH_PORTS)
+                        progress = 0
+
+                        for ssh_port in SSH_PORTS:
+                            payloads = _build_payload_variants(host_header, host_only, ssh_host, ssh_port, extra_headers)
+                            for name, raw_payload, display_payload, split_at in payloads:
+                                progress += 1
+                                print(f"    Payload {progress}/{payload_count} ({name})", end="\r")
+                                ok = _try_payload(
+                                    proxy_host,
+                                    port,
+                                    use_tls,
+                                    sni_host,
+                                    raw_payload,
+                                    split_at,
+                                    ssh_host,
+                                    ssh_port,
+                                    username,
+                                    password,
+                                    DEFAULT_TIMEOUT,
+                                )
+                                if ok:
+                                    ssl_value = sni_host if use_tls else ""
+                                    _write_result(display_payload, proxy_host, port, ssh_host, ssh_port, username, password, ssl_value)
+                                    print(f"{Fore.GREEN}CONNECTED{Style.RESET_ALL} - {proxy_host}:{port} ({name}) SSH:{ssh_port}        ")
+                                    success_count += 1
+                                    success_for_proxy = True
+
+        if not success_for_proxy:
+            print(f"{Fore.RED}FAILED{Style.RESET_ALL} - {proxy_host}")
+>>>>>>> b6a887897a824febd210a35f6aa5f333d156b3e6
 
     print(f"{Fore.CYAN}[!] Selesai. Total Berhasil: {success_count}{Style.RESET_ALL}")
     print(f"{Fore.CYAN}[!] Hasil tersimpan di : {OUTPUT_FILE}{Style.RESET_ALL}")

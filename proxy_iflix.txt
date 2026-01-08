@@ -1,0 +1,7 @@
+www.iflix.com:80
+www.iflix.com:443
+api.iflix.com:80
+cdn.iflix.com:80
+stream.iflix.com:443
+iflix.com:80
+iflix.com:443
