@@ -1,0 +1,107 @@
+﻿<!doctype html>
+<html lang="en" class="light-style layout-menu-fixed layout-navbar-fixed layout-compact" dir="ltr" data-theme="theme-default" data-assets-path="{{ url_for('static', filename='assets/') }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="" />
+
+    <style>
+      html.layout-wide .layout-container-wrapper {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      #progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: transparent;
+        z-index: 10000;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      #loader-line {
+        height: 100%;
+        width: 0;
+        background-color: #5a8dee;
+        animation: loading 1.5s ease-in-out infinite;
+      }
+
+      @keyframes loading {
+        0% { width: 0; }
+        50% { width: 70%; }
+        100% { width: 95%; }
+      }
+
+      .loaded #progress-bar {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/favicon/favicon.ico') }}" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/fonts/boxicons.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/fonts/flag-icons.css') }}" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/css/theme-default.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/demo.css') }}" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/xwan.css') }}" />
+
+    {% block page_css %}{% endblock %}
+  </head>
+
+  <body>
+    <div id="progress-bar"><div id="loader-line"></div></div>
+
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        {% include 'base/includes/vertical_menu.html' %}
+
+        <div class="layout-page">
+          {% include 'base/includes/vertical_navbar.html' %}
+
+          <div class="content-wrapper">
+            {% block content %}{% endblock %}
+            {% include 'base/includes/footer.html' %}
+            <div class="content-backdrop fade"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
+
+    <script src="{{ url_for('static', filename='assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/js/menu.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+    <script>
+      window.addEventListener('load', function () {
+        document.body.classList.add('loaded');
+      });
+    </script>
+
+    {% block page_js %}{% endblock %}
+  </body>
+</html>

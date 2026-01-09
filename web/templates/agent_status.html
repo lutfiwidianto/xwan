@@ -1,0 +1,130 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
+    <div class="col-12">
+      <h4 class="fw-bold">Agent Status</h4>
+      <p class="text-muted">Daftar device agent, job status, dan hasil Auto All Modes dari agent.</p>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Devices</h6>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>API Key</th>
+                  <th>User</th>
+                  <th>Device</th>
+                  <th>Created</th>
+                  <th>Last Seen</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in devices %}
+                <tr>
+                  <td><code>{{ row.api_key }}</code></td>
+                  <td>{{ row.user_email or '-' }}</td>
+                  <td>{{ row.device_name or '-' }}</td>
+                  <td>{{ row.created_at }}</td>
+                  <td>{{ row.last_seen or '-' }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                  <td colspan="5" class="text-muted">Belum ada device agent.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Jobs</h6>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Job ID</th>
+                  <th>Mode</th>
+                  <th>Targets</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in jobs %}
+                <tr>
+                  <td>{{ row.job_id }}</td>
+                  <td>{{ row.mode }}</td>
+                  <td>{{ row.targets }}</td>
+                  <td>{{ row.status }}</td>
+                  <td>{{ row.created_at }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                  <td colspan="5" class="text-muted">Belum ada job agent.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Results (Auto All Modes)</h6>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Job ID</th>
+                  <th>Target</th>
+                  <th>Mode</th>
+                  <th>Status</th>
+                  <th>Error</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                <tr>
+                  <td>{{ row.job_id }}</td>
+                  <td>{{ row.target }}</td>
+                  <td>{{ row.mode }}</td>
+                  <td>
+                    {% if row.success %}
+                    <span class="badge bg-success">OK</span>
+                    {% else %}
+                    <span class="badge bg-danger">FAIL</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ row.error or '-' }}</td>
+                  <td>{{ row.created_at }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                  <td colspan="6" class="text-muted">Belum ada hasil agent.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

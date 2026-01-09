@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en" class="light-style layout-menu-fixed layout-navbar-fixed layout-compact" dir="ltr" data-theme="theme-default" data-assets-path="{{ url_for('static', filename='assets/') }}" data-template="{% if session.get('layout_mode', 'horizontal') == 'vertical' %}vertical-menu-template{% else %}horizontal-menu-template{% endif %}">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+        <meta name="description" content=""/>
+        <style>
+            /* CSS Layout Wide/Compact (Anti-Flicker) */
+            html.layout-wide .layout-container-wrapper {
+                max-width: 100% !important;
+                width: 100% !important;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            /* Container Garis Progress Bar (Fixed di atas) */
+            #progress-bar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background-color: transparent;
+                z-index: 10000;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /* Garis Progress */
+            #loader-line {
+                height: 100%;
+                width: 0;
+                background-color: #5a8dee;
+                animation: loading 1.5s ease-in-out infinite;
+            }
+
+            /* Animasi CSS Progress Bar */
+            @keyframes loading {
+                0% {
+                    width: 0;
+                }
+                50% {
+                    width: 70%;
+                }
+                100% {
+                    width: 95%;
+                }
+            }
+
+            /* Sembunyikan progress bar setelah load */
+            .loaded #progress-bar {
+                opacity: 0;
+                visibility: hidden;
+            }
+        </style>
+
+        <script>
+            ;
+            (function () { // --- LOGIKA TEMA & CSS ---
+                const KEY_STYLE = 'frest-custom-style'
+                const KEY_THEME = 'frest-custom-theme'
+                const CSS_PATH = '/static/assets/vendor/css/'
+                const PRIMARY_COLOR = '#5a8dee'
+
+                const style = localStorage.getItem(KEY_STYLE) || 'light'
+                const theme = localStorage.getItem(KEY_THEME) || 'theme-default'
+                const suffix = style === 'dark' ? '-dark' : ''
+
+                // Tulis link CSS
+                document.write(`
+                    <link rel="stylesheet" id="core-css" href="${CSS_PATH}core${suffix}.css">
+                    <link rel="stylesheet" id="theme-css" href="${CSS_PATH}${theme}${suffix}.css">
+                    <link rel="stylesheet" href="${CSS_PATH}demo.css">
+                `)
+
+                // --- LOGIKA LAYOUT WIDE/COMPACT ---
+                const STORAGE_KEY = 'my_custom_layout_preference'
+                const savedLayout = localStorage.getItem(STORAGE_KEY)
+
+                if (savedLayout === 'wide' || ! savedLayout) {
+                    document.documentElement.classList.add('layout-wide')
+                }
+            })()
+        </script>
+
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/favicon/favicon.ico') }}"/>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/fonts/boxicons.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/fonts/fontawesome.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/fonts/flag-icons.css') }}"/>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/typeahead-js/typeahead.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/apex-charts/apex-charts.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/flatpickr/flatpickr.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/libs/select2/select2.css') }}">
+
+        <script src="{{ url_for('static', filename='assets/vendor/js/helpers.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/config.js') }}"></script>
+
+        <!--Block CSS Mandiri untuk konten-->
+        {% block page_css %}{% endblock %}
+    </head>
+
+    <body>
+        <!-- Progress Bar -->
+        <div id="progress-bar">
+            <div id="loader-line"></div>
+        </div>
+
+        {% if session.get('layout_mode', 'horizontal') == 'vertical' %}
+            <!-- VERTICAL: Menu di layout-container -->
+            <div class="layout-wrapper layout-content-navbar">
+            {% else %}
+                <!-- HORIZONTAL: Navbar di layout-container -->
+                <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+                {% endif %}
+
+                <div class="layout-container">
+                    {% if session.get('layout_mode', 'horizontal') == 'vertical' %}
+                        <!-- VERTICAL: Menu di layout-container -->
+                        {% include 'base/includes/vertical_menu.html' %}
+                    {% else %}
+                        <!-- HORIZONTAL: Navbar di layout-container -->
+                        {% include 'base/includes/horizontal_navbar.html' %}
+                    {% endif %}
+
+                    <div class="layout-page">
+                        {% if session.get('layout_mode', 'horizontal') == 'vertical' %}
+                            <!-- VERTICAL: Navbar di layout-page -->
+                            {% include 'base/includes/vertical_navbar.html' %}
+                        {% endif %}
+
+                        <div class="content-wrapper">
+                            {% if session.get('layout_mode', 'horizontal') == 'horizontal' %}
+                                <!-- HORIZONTAL: Menu di content-wrapper -->
+                                {% include 'base/includes/horizontal_menu.html' %}
+                            {% endif %}
+
+                            {% block content %}{% endblock %}
+
+                            {% include 'base/includes/footer.html' %}
+
+                            <div class="content-backdrop fade"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layout-overlay layout-menu-toggle"></div>
+            <div class="drag-target"></div>
+
+            <!-- Core -->
+            <script src="{{ url_for('static', filename='assets/vendor/libs/jquery/jquery.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/popper/popper.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/js/bootstrap.js') }}"></script>
+
+            <!-- Vendor Utility -->
+            <script src="{{ url_for('static', filename='assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/hammer/hammer.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/i18n/i18n.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/js/menu.js') }}"></script>
+
+            <!-- DataTables Core -->
+            <script src="{{ url_for('static', filename='assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+
+            <!-- Export Dependencies -->
+            <script src="{{ url_for('static', filename='assets/vendor/libs/jszip/jszip.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/pdfmake/pdfmake.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/pdfmake/vfs_fonts.js') }}"></script>
+
+            <!-- Responsive -->
+            <script src="{{ url_for('static', filename='assets/vendor/libs/datatables-responsive/datatables.responsive.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.js') }}"></script>
+
+            <!-- Buttons -->
+            <script src="{{ url_for('static', filename='assets/vendor/libs/datatables-buttons/datatables-buttons.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/datatables-buttons/buttons.html5.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/datatables-buttons/buttons.print.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/datatables-buttons/buttons.colVis.js') }}"></script>
+
+            <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/vendor/libs/select2/select2.js') }}"></script>
+
+            <!-- Custom JS -->
+            <script src="{{ url_for('static', filename='assets/js/customs.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/js/token-timer.js') }}"></script>
+            <script src="{{ url_for('static', filename='assets/js/language-selector.js') }}"></script>
+
+<script>
+    // Pass session value dari server ke JavaScript
+    const CURRENT_LAYOUT = '{{ session.get("layout_mode", "vertical") }}';
+
+    // Sembunyikan progress bar setelah page load
+    window.addEventListener('load', function () {
+        document.body.classList.add('loaded');
+    });
+
+    // Function untuk set radio button berdasarkan session
+    function setLayoutRadioButtons() {
+        const verticalRadio = document.getElementById('layoutVertical');
+        const horizontalRadio = document.getElementById('layoutHorizontal');
+
+        if (verticalRadio && horizontalRadio) {
+            if (CURRENT_LAYOUT === 'vertical') {
+                verticalRadio.checked = true;
+                horizontalRadio.checked = false;
+            } else if (CURRENT_LAYOUT === 'horizontal') {
+                verticalRadio.checked = false;
+                horizontalRadio.checked = true;
+            }
+        }
+    }
+
+    // Function untuk switch layout
+    function switchLayout(mode) {
+        console.log('🔄 Switching to layout:', mode);
+
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/switch-layout';
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'layout_mode';
+        input.value = mode;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    // Function untuk handle content layout (wide/compact)
+    function handleContentLayout() {
+        const radioWide = document.getElementById('layoutWide');
+        const radioCompact = document.getElementById('layoutCompact');
+        const compactLabel = document.querySelector('label[for="layoutCompact"]');
+        const STORAGE_KEY_LAYOUT = 'my_custom_layout_preference';
+        const STORAGE_KEY_MENU_LAYOUT = 'preferredLayout';
+
+        // SIMPAN MENU LAYOUT KE LOCAL STORAGE (sinkronisasi dengan session)
+        localStorage.setItem(STORAGE_KEY_MENU_LAYOUT, CURRENT_LAYOUT);
+        console.log('💾 Menu layout saved to localStorage:', CURRENT_LAYOUT);
+
+        // Jika dalam mode vertical, sembunyikan opsi compact
+        if (CURRENT_LAYOUT === 'vertical') {
+            console.log('📏 Mode vertical detected - hiding compact option');
+
+            // Simpan wide di localStorage
+            localStorage.setItem(STORAGE_KEY_LAYOUT, 'wide');
+            
+            // Terapkan wide layout di DOM
+            document.documentElement.classList.add('layout-wide');
+            
+            // Update radio buttons - pastikan wide terpilih
+            if (radioWide) radioWide.checked = true;
+            
+            // SEMBUNYIKAN opsi compact
+            if (radioCompact && compactLabel) {
+                radioCompact.style.display = 'none';
+                compactLabel.style.display = 'none';
+                
+                // Juga sembunyikan parent element jika ada wrapper khusus
+                const compactWrapper = radioCompact.closest('.form-check');
+                if (compactWrapper) {
+                    compactWrapper.style.display = 'none';
+                }
+            }
+            
+        } else {
+            // Mode horizontal - TAMPILKAN kembali opsi compact
+            if (radioCompact && compactLabel) {
+                radioCompact.style.display = 'block';
+                compactLabel.style.display = 'block';
+                
+                // Tampilkan kembali parent element
+                const compactWrapper = radioCompact.closest('.form-check');
+                if (compactWrapper) {
+                    compactWrapper.style.display = 'block';
+                }
+            }
+            
+            // Load saved layout preference dari localStorage
+            const savedLayout = localStorage.getItem(STORAGE_KEY_LAYOUT) || 'wide';
+            console.log('📂 Loaded content layout from localStorage:', savedLayout);
+            
+            if (savedLayout === 'wide' && radioWide) {
+                radioWide.checked = true;
+                document.documentElement.classList.add('layout-wide');
+            } else if (savedLayout === 'compact' && radioCompact) {
+                radioCompact.checked = true;
+                document.documentElement.classList.remove('layout-wide');
+            }
+        }
+
+        // Event listener untuk content layout (wide/compact)
+        if (radioWide) {
+            radioWide.addEventListener('change', function() {
+                if (CURRENT_LAYOUT === 'vertical') {
+                    // Dalam vertical, tetap paksa wide
+                    this.checked = true;
+                    showNotification('Layout wide diterapkan untuk menu vertical', 'info');
+                    return;
+                }
+                setContentLayout('wide');
+            });
+        }
+
+        if (radioCompact) {
+            radioCompact.addEventListener('change', function() {
+                setContentLayout('compact');
+            });
+        }
+    }
+
+    // Function untuk set content layout (wide/compact)
+    function setContentLayout(mode) {
+        const STORAGE_KEY_LAYOUT = 'my_custom_layout_preference';
+        const STORAGE_KEY_MENU_LAYOUT = 'preferredLayout';
+        
+        // Ambil menu layout terbaru dari localStorage (untuk konsistensi)
+        const currentMenuLayout = localStorage.getItem(STORAGE_KEY_MENU_LAYOUT) || CURRENT_LAYOUT;
+        
+        console.log('🎯 Setting content layout:', mode, 'Menu layout:', currentMenuLayout);
+        
+        // Jika mode vertical, selalu paksa wide
+        if (currentMenuLayout === 'vertical') {
+            mode = 'wide';
+            showNotification('Layout wide diterapkan untuk menu vertical', 'info');
+        } else {
+            showNotification('Semua perubahan berhasil disimpan!', 'success');
+        }
+
+        // Terapkan layout ke DOM
+        if (mode === 'wide') {
+            document.documentElement.classList.add('layout-wide');
+        } else {
+            document.documentElement.classList.remove('layout-wide');
+        }
+
+        // Simpan ke localStorage
+        localStorage.setItem(STORAGE_KEY_LAYOUT, mode);
+        console.log('💾 Content layout saved to localStorage:', mode);
+    }
+
+    // Function untuk load content layout dari localStorage
+    function loadContentLayout() {
+        const STORAGE_KEY_LAYOUT = 'my_custom_layout_preference';
+        const STORAGE_KEY_MENU_LAYOUT = 'preferredLayout';
+        
+        // Pastikan menu layout tersimpan di localStorage
+        localStorage.setItem(STORAGE_KEY_MENU_LAYOUT, CURRENT_LAYOUT);
+        
+        const savedContentLayout = localStorage.getItem(STORAGE_KEY_LAYOUT);
+        const savedMenuLayout = localStorage.getItem(STORAGE_KEY_MENU_LAYOUT);
+        
+        console.log('🔍 Loading from localStorage - Menu:', savedMenuLayout, 'Content:', savedContentLayout);
+        
+        // Jika menu layout vertical, paksa content layout wide
+        if (savedMenuLayout === 'vertical') {
+            localStorage.setItem(STORAGE_KEY_LAYOUT, 'wide');
+            document.documentElement.classList.add('layout-wide');
+        } else if (savedContentLayout === 'compact') {
+            // Jika menu horizontal dan content compact, terapkan compact
+            document.documentElement.classList.remove('layout-wide');
+        } else {
+            // Default ke wide
+            document.documentElement.classList.add('layout-wide');
+        }
+    }
+
+    // Function untuk toggle visibility opsi compact
+    function toggleCompactVisibility() {
+        const radioCompact = document.getElementById('layoutCompact');
+        const compactLabel = document.querySelector('label[for="layoutCompact"]');
+        const STORAGE_KEY_MENU_LAYOUT = 'preferredLayout';
+        
+        const currentMenuLayout = localStorage.getItem(STORAGE_KEY_MENU_LAYOUT) || CURRENT_LAYOUT;
+        
+        if (radioCompact && compactLabel) {
+            if (currentMenuLayout === 'vertical') {
+                // SEMBUNYIKAN untuk vertical
+                radioCompact.style.display = 'none';
+                compactLabel.style.display = 'none';
+                
+                const compactWrapper = radioCompact.closest('.form-check');
+                if (compactWrapper) {
+                    compactWrapper.style.display = 'none';
+                }
+            } else {
+                // TAMPILKAN untuk horizontal
+                radioCompact.style.display = 'block';
+                compactLabel.style.display = 'block';
+                
+                const compactWrapper = radioCompact.closest('.form-check');
+                if (compactWrapper) {
+                    compactWrapper.style.display = 'block';
+                }
+            }
+        }
+    }
+
+    // Event listener untuk radio buttons
+    document.addEventListener('DOMContentLoaded', function () {
+        // Set radio buttons berdasarkan session
+        setLayoutRadioButtons();
+        
+        // Load content layout dari localStorage
+        loadContentLayout();
+        
+        // Handle content layout (wide/compact)
+        handleContentLayout();
+
+        const layoutRadios = document.querySelectorAll('input[name="layoutMode"]');
+
+        // Add event listeners untuk menu layout
+        layoutRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                if (this.checked) {
+                    console.log('📡 Layout changed to:', this.value);
+                    switchLayout(this.value);
+                }
+            });
+        });
+    });
+
+    // Juga set radio buttons ketika dropdown dibuka
+    document.addEventListener('show.bs.dropdown', function (event) {
+        if (event.target.closest('.dropdown-style-switcher')) {
+            setTimeout(setLayoutRadioButtons, 10);
+            setTimeout(handleContentLayout, 10);
+            setTimeout(toggleCompactVisibility, 10);
+        }
+    });
+
+    // Monitor perubahan di localStorage (jika ada tab lain yang mengubah)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'preferredLayout' || e.key === 'my_custom_layout_preference') {
+            console.log('🔄 Storage changed:', e.key, 'New value:', e.newValue);
+            setTimeout(handleContentLayout, 100);
+            setTimeout(toggleCompactVisibility, 100);
+        }
+    });
+
+    // Function showNotification
+    function showNotification(message, type = 'info') {
+        const alertClass = type === 'success' ? 'alert-success' : type === 'error' ? 'alert-danger' : 'alert-info'
+
+        const notification = `
+            <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `
+
+        $('#Aksesmodule').before(notification)
+
+        setTimeout(() => {
+            $('.alert').alert('close')
+        }, 5000)
+    }
+</script>
+<!-- Tambahkan di template base.html -->
+<script>
+// Fingerprinting script
+function collectBrowserFingerprint() {
+    const fingerprint = {
+        // Browser properties via JavaScript
+        js_browser: navigator.userAgent,
+        js_language: navigator.language,
+        js_platform: navigator.platform,
+        js_hardwareConcurrency: navigator.hardwareConcurrency,
+        js_deviceMemory: navigator.deviceMemory,
+        js_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        js_screen: `${screen.width}x${screen.height}`,
+        js_colorDepth: screen.colorDepth,
+        js_pixelRatio: window.devicePixelRatio,
+        js_cookiesEnabled: navigator.cookieEnabled,
+        js_doNotTrack: navigator.doNotTrack,
+        js_plugins: Array.from(navigator.plugins).map(p => p.name).join(', '),
+        js_fonts: '', // Could be detected with font detection
+        js_canvas_fingerprint: null, // Canvas fingerprinting
+        timestamp: new Date().toISOString()
+    };
+    
+    // Canvas fingerprinting
+    try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.fillStyle = '#f60';
+        ctx.fillRect(125, 1, 62, 20);
+        ctx.fillStyle = '#069';
+        ctx.fillText('BrowserCheck', 2, 15);
+        ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+        ctx.fillText('BrowserCheck', 4, 17);
+        fingerprint.js_canvas_fingerprint = canvas.toDataURL();
+    } catch (e) {
+        fingerprint.js_canvas_error = e.message;
+    }
+    
+    return fingerprint;
+}
+
+</script>
+
+            <!-- Page JS Untuk Spesifik Halaman -->
+            {% block page_js %}{% endblock %}
+        </body>
+    </body>
+</html>

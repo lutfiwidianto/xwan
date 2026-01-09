@@ -1,0 +1,45 @@
+{
+  "inbounds": [
+    {
+      "port": 10808,
+      "protocol": "socks",
+      "listen": "127.0.0.1",
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "trojan",
+      "settings": {
+        "servers": [
+          {
+            "address": "collection.linefriends.com",
+            "port": 443,
+            "password": "f78d71fa-e338-4b34-bdf3-96a9cac1df7f"
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "docs.linefriends.com",
+          "allowInsecure": true,
+          "fingerprint": "chrome",
+          "alpn": [
+            "h2"
+          ]
+        },
+        "wsSettings": {
+          "path": "/websocket-trojan",
+          "headers": {
+            "Host": "sg-trojan-vvip-13.topvpn.my.id"
+          }
+        }
+      }
+    }
+  ]
+}

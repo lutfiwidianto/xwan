@@ -1,0 +1,132 @@
+﻿<!-- Menu -->
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+  <div class="app-brand demo">
+    <a href="{{ url_for('index') }}" class="app-brand-link">
+      <span class="app-brand-logo demo">
+        <i class="bx bx-radar"></i>
+      </span>
+      <span class="app-brand-text demo menu-text fw-bold ms-2">X-Finder</span>
+    </a>
+
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+      <i class="bx menu-toggle-icon d-none d-xl-block fs-4 align-middle"></i>
+      <i class="bx bx-x d-block d-xl-none bx-sm align-middle"></i>
+    </a>
+  </div>
+
+  <div class="menu-divider mt-0"></div>
+  <div class="menu-inner-shadow"></div>
+
+  <ul class="menu-inner">
+    <li class="menu-item {% if active_menu == 'dashboard' %}active{% endif %}">
+      <a href="{{ url_for('index') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-home"></i>
+        <div>Dashboard</div>
+      </a>
+    </li>
+
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Xray Scan</span>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'scan-address' %}active{% endif %}">
+      <a href="{{ url_for('scan_mode', mode='address') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-globe"></i>
+        <div>Address</div>
+      </a>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'scan-wildcard' %}active{% endif %}">
+      <a href="{{ url_for('scan_mode', mode='wildcard') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-layer"></i>
+        <div>Wildcard</div>
+      </a>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'scan-sni' %}active{% endif %}">
+      <a href="{{ url_for('scan_mode', mode='sni') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-lock-alt"></i>
+        <div>SNI</div>
+      </a>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'scan-onering' %}active{% endif %}">
+      <a href="{{ url_for('scan_mode', mode='onering') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-cog"></i>
+        <div>Onering</div>
+      </a>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'scan-auto' %}active{% endif %}">
+      <a href="{{ url_for('scan_mode', mode='auto') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-sync"></i>
+        <div>Auto All Modes</div>
+      </a>
+    </li>
+
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Tools</span>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'ssh-ws' %}active{% endif %}">
+      <a href="{{ url_for('tool_page', name='ssh-ws') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-transfer"></i>
+        <div>SSH Websocket</div>
+      </a>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'subdomain' %}active{% endif %}">
+      <a href="{{ url_for('tool_page', name='subdomain') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-search"></i>
+        <div>Subdomain Scanner</div>
+      </a>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'reverse-ip' %}active{% endif %}">
+      <a href="{{ url_for('tool_page', name='reverse-ip') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-refresh"></i>
+        <div>Reverse IP</div>
+      </a>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'keyword-search' %}active{% endif %}">
+      <a href="{{ url_for('tool_page', name='keyword-search') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-file-find"></i>
+        <div>Keyword Search</div>
+      </a>
+    </li>
+
+    <li class="menu-item {% if active_menu == 'agent-status' %}active{% endif %}">
+      <a href="{{ url_for('agent_status') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-chip"></i>
+        <div>Agent Status</div>
+      </a>
+    </li>
+
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Account</span>
+    </li>
+    {% if current_user %}
+    <li class="menu-item">
+      <div class="menu-link">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div>{{ current_user.name or current_user.email }}</div>
+      </div>
+    </li>
+    <li class="menu-item">
+      <a href="{{ url_for('logout') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-log-out"></i>
+        <div>Logout</div>
+      </a>
+    </li>
+    {% else %}
+    <li class="menu-item">
+      <a href="{{ url_for('login') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-log-in"></i>
+        <div>Login</div>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</aside>
+<!-- / Menu -->

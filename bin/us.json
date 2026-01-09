@@ -1,0 +1,40 @@
+{
+  "inbounds": [
+    {
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "trojan",
+      "settings": {
+        "servers": [
+          {
+            "address": "104.17.3.81",
+            "port": 443,
+            "password": "password"
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "v3.lifetime01.workers.dev",
+          "allowInsecure": false
+        },
+        "wsSettings": {
+          "path": "/45.8.146.94=443",
+          "headers": {
+            "Host": "v3.lifetime01.workers.dev"
+          }
+        }
+      }
+    }
+  ]
+}

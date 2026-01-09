@@ -1,0 +1,58 @@
+﻿{% extends "base/base.html" %} {% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
+    <div class="col-12">
+      <h4 class="fw-bold">Dashboard</h4>
+      <p class="text-muted">X-Finder Local UI untuk memetakan semua menu dari xwan.py ke sidebar.</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Xray Scan</h5>
+          <p class="card-text">Address, Wildcard, SNI, Onering, Auto.</p>
+          <a class="btn btn-primary" href="{{ url_for('scan_mode', mode='address') }}">Mulai Scan</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">SSH Websocket</h5>
+          <p class="card-text">Halaman siap untuk integrasi modul ssh_ws.</p>
+          <a class="btn btn-outline-primary" href="{{ url_for('tool_page', name='ssh-ws') }}">Buka</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Subdomain</h5>
+          <p class="card-text">Halaman siap untuk integrasi modul subdomain.</p>
+          <a class="btn btn-outline-primary" href="{{ url_for('tool_page', name='subdomain') }}">Buka</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reverse IP</h5>
+          <p class="card-text">Halaman siap untuk integrasi modul reverse IP.</p>
+          <a class="btn btn-outline-primary" href="{{ url_for('tool_page', name='reverse-ip') }}">Buka</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Keyword Search</h5>
+          <p class="card-text">Halaman siap untuk integrasi modul keyword search.</p>
+          <a class="btn btn-outline-primary" href="{{ url_for('tool_page', name='keyword-search') }}">Buka</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

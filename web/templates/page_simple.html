@@ -1,0 +1,428 @@
+﻿{% extends "base/base.html" %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
+    <div class="col-12">
+      <h4 class="fw-bold">{{ page_title }}</h4>
+      <p class="text-muted">{{ page_description }}</p>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          {% if page_key == 'subdomain' %}
+          <form method="post" id="subdomain-form">
+            <div class="mb-3">
+              <label class="form-label" for="domain">Domain</label>
+              <input type="text" class="form-control" id="domain" name="domain" placeholder="example.com" />
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <button type="submit" class="btn btn-primary">Jalankan</button>
+              <button type="button" class="btn btn-outline-secondary" id="subdomain-stop" disabled>Stop</button>
+              <button type="button" class="btn btn-outline-primary" id="subdomain-resume" disabled>Resume</button>
+            </div>
+          </form>
+          <div class="mt-3 d-none" id="subdomain-progress">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 0%" id="subdomain-progress-bar">0%</div>
+            </div>
+          </div>
+          <div class="alert alert-info mt-3 d-none" role="alert" id="subdomain-summary">
+            Total: <span id="subdomain-total">0</span> | File: <span id="subdomain-output">-</span>
+          </div>
+          {% if scans and scans|length %}
+          <div class="d-flex flex-wrap gap-2 mt-2">
+            <select class="form-select w-auto" id="subdomain-history">
+              <option value="">History: pilih scan</option>
+              {% for scan in scans %}
+              <option value="{{ scan.scan_id }}">{{ scan.domain }} - {{ scan.created_at }}</option>
+              {% endfor %}
+            </select>
+            <button type="button" class="btn btn-outline-secondary" id="subdomain-history-load">Load History</button>
+          </div>
+          {% endif %}
+          <div class="d-flex flex-wrap gap-2 mt-2 d-none" id="subdomain-controls">
+            <select class="form-select w-auto" id="subdomain-filter">
+              <option value="all">Filter: All</option>
+              <option value="200">Filter: Status 200</option>
+              <option value="2xx">Filter: Status 2xx</option>
+              <option value="3xx">Filter: Status 3xx</option>
+              <option value="4xx">Filter: Status 4xx</option>
+              <option value="5xx">Filter: Status 5xx</option>
+              <option value="dns">Filter: DNS_FAIL</option>
+              <option value="other">Filter: Other</option>
+            </select>
+            <select class="form-select w-auto" id="subdomain-sort">
+              <option value="none">Sort: Default</option>
+              <option value="status-200">Sort: Status 200 on Top</option>
+              <option value="status-desc">Sort: Status Desc</option>
+              <option value="status-asc">Sort: Status Asc</option>
+            </select>
+          </div>
+          <div class="d-flex flex-wrap gap-2 mt-2 d-none" id="subdomain-downloads">
+            <button class="btn btn-outline-primary" id="download-txt">Download TXT (Filtered)</button>
+            <button class="btn btn-outline-secondary" id="download-csv">Download CSV (Filtered)</button>
+          </div>
+          {% elif page_key == 'reverse-ip' %}
+          <form method="post">
+            <div class="mb-3">
+              <label class="form-label" for="ip_address">IP Address</label>
+              <input type="text" class="form-control" id="ip_address" name="ip_address" placeholder="8.8.8.8" />
+            </div>
+            <button type="submit" class="btn btn-primary">Jalankan</button>
+          </form>
+          {% elif page_key == 'keyword-search' %}
+          <form method="post">
+            <div class="mb-3">
+              <label class="form-label" for="keyword">Keyword / Domain Utama</label>
+              <input type="text" class="form-control" id="keyword" name="keyword" placeholder="example.com" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="output_file">Nama File Output</label>
+              <input type="text" class="form-control" id="output_file" name="output_file" placeholder="final_results.txt" />
+            </div>
+            <button type="submit" class="btn btn-primary">Jalankan</button>
+          </form>
+          {% elif page_key == 'ssh-ws' %}
+          <form method="post">
+            <div class="row g-3">
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="use_saved_accounts" name="use_saved_accounts" />
+                  <label class="form-check-label" for="use_saved_accounts">Gunakan akun tersimpan</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="ssh_host">SSH Host</label>
+                <input type="text" class="form-control" id="ssh_host" name="ssh_host" placeholder="example.com" />
+              </div>
+              <div class="col-md-3">
+                <label class="form-label" for="ssh_port">SSH Port</label>
+                <input type="text" class="form-control" id="ssh_port" name="ssh_port" placeholder="22" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="ssh_username">SSH Username</label>
+                <input type="text" class="form-control" id="ssh_username" name="ssh_username" placeholder="user" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="ssh_password">SSH Password</label>
+                <input type="password" class="form-control" id="ssh_password" name="ssh_password" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="target_mode">Target Mode</label>
+                <select class="form-select" id="target_mode" name="target_mode">
+                  <option value="single">Single Host</option>
+                  <option value="file">List File</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="target_host">Target Host / File</label>
+                <input type="text" class="form-control" id="target_host" name="target_host" placeholder="example.com atau C:\\xwan-web\\data\\list.txt" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="scan_mode">Scan Mode</label>
+                <select class="form-select" id="scan_mode" name="scan_mode">
+                  <option value="1">Normal</option>
+                  <option value="2">Scan All</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="force_full" name="force_full" />
+                  <label class="form-check-label" for="force_full">Force full test jika SNI gagal</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="enable_resolve" name="enable_resolve" />
+                  <label class="form-check-label" for="enable_resolve">Enable DNS resolve step</label>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="custom_headers">Custom Headers (opsional, satu per baris)</label>
+                <textarea class="form-control" id="custom_headers" name="custom_headers" rows="4" placeholder="X-Header: value"></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Jalankan</button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if error_text %}
+      <div class="alert alert-danger mt-3" role="alert">
+        {{ error_text }}
+      </div>
+      {% endif %}
+
+      {% if output_text %}
+      <div class="card mt-3">
+        <div class="card-body">
+          <h6 class="card-title">Output</h6>
+          <pre class="mb-0" style="white-space: pre-wrap;">{{ output_text }}</pre>
+        </div>
+      </div>
+      {% endif %}
+      {% if page_key == 'subdomain' %}
+      <div class="card mt-3">
+        <div class="table-responsive">
+          <table class="table table-striped" id="subdomain-table">
+            <thead>
+              <tr>
+                <th>NO</th>
+                <th>SUBDOMAIN</th>
+                <th>IP</th>
+                <th>HOSTNAME</th>
+                <th>STATUS</th>
+                <th>CDN/PROVIDER</th>
+              </tr>
+            </thead>
+            <tbody id="subdomain-body"></tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% if page_key == 'subdomain' %}
+<script>
+  (function () {
+    const form = document.getElementById('subdomain-form');
+    const stopBtn = document.getElementById('subdomain-stop');
+    const resumeBtn = document.getElementById('subdomain-resume');
+    const body = document.getElementById('subdomain-body');
+    const summary = document.getElementById('subdomain-summary');
+    const totalEl = document.getElementById('subdomain-total');
+    const outputEl = document.getElementById('subdomain-output');
+    const filterSelect = document.getElementById('subdomain-filter');
+    const sortSelect = document.getElementById('subdomain-sort');
+    const controls = document.getElementById('subdomain-controls');
+    const historySelect = document.getElementById('subdomain-history');
+    const historyLoad = document.getElementById('subdomain-history-load');
+    const downloads = document.getElementById('subdomain-downloads');
+    const progressWrap = document.getElementById('subdomain-progress');
+    const progressBar = document.getElementById('subdomain-progress-bar');
+    let source = null;
+    let scanId = null;
+    let lastDomain = '';
+    const rowsStore = new Map();
+
+    function resetTable() {
+      body.innerHTML = '';
+      summary.classList.add('d-none');
+      controls.classList.add('d-none');
+      downloads.classList.add('d-none');
+      progressWrap.classList.add('d-none');
+      progressBar.style.width = '0%';
+      progressBar.textContent = '0%';
+      totalEl.textContent = '0';
+      outputEl.textContent = '-';
+      rowsStore.clear();
+    }
+
+    function getFilteredRows() {
+      const sortMode = sortSelect.value;
+      const filterMode = filterSelect.value;
+      const rows = Array.from(rowsStore.values());
+
+      if (sortMode === 'status-200') {
+        rows.sort((a, b) => {
+          const a200 = a.status === '200' ? 0 : 1;
+          const b200 = b.status === '200' ? 0 : 1;
+          if (a200 !== b200) return a200 - b200;
+          return a.subdomain.localeCompare(b.subdomain);
+        });
+      } else if (sortMode === 'status-desc') {
+        rows.sort((a, b) => (b.status || '').localeCompare(a.status || ''));
+      } else if (sortMode === 'status-asc') {
+        rows.sort((a, b) => (a.status || '').localeCompare(b.status || ''));
+      }
+
+      const filtered = [];
+      rows.forEach((row) => {
+        if (filterMode === '200' && row.status !== '200') return;
+        if (filterMode === '2xx' && !(row.status && row.status.startsWith('2'))) return;
+        if (filterMode === '3xx' && !(row.status && row.status.startsWith('3'))) return;
+        if (filterMode === '4xx' && !(row.status && row.status.startsWith('4'))) return;
+        if (filterMode === '5xx' && !(row.status && row.status.startsWith('5'))) return;
+        if (filterMode === 'dns' && row.status !== 'DNS_FAIL') return;
+        if (filterMode === 'other') {
+          const status = row.status || '';
+          const isHttp = status.match(/^[1-5]\d\d$/);
+          if (isHttp) return;
+          if (status === 'DNS_FAIL') return;
+        }
+        filtered.push(row);
+      });
+      return filtered;
+    }
+
+    function renderRows() {
+      const rows = getFilteredRows();
+      body.innerHTML = '';
+      let displayIndex = 1;
+      rows.forEach((row) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${displayIndex}</td>
+          <td>${row.subdomain}</td>
+          <td>${row.ip}</td>
+          <td>${row.hostname}</td>
+          <td>${row.status}</td>
+          <td>${row.provider}</td>
+        `;
+        body.appendChild(tr);
+        displayIndex += 1;
+      });
+    }
+
+    function addRow(row) {
+      if (!row || !row.subdomain) return;
+      rowsStore.set(row.subdomain, row);
+      renderRows();
+    }
+
+    function stopStream() {
+      if (source) {
+        source.close();
+        source = null;
+      }
+      stopBtn.disabled = true;
+      resumeBtn.disabled = scanId === null;
+    }
+
+    stopBtn.addEventListener('click', function () {
+      if (!scanId) return;
+      fetch('/tool/subdomain/stop', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `scan_id=${encodeURIComponent(scanId)}`
+      }).finally(() => stopStream());
+    });
+
+    resumeBtn.addEventListener('click', function () {
+      if (!scanId || !lastDomain) return;
+      startStream(lastDomain, true);
+    });
+
+    function startStream(domain, resume) {
+      stopStream();
+      if (!resume) {
+        resetTable();
+        scanId = `${Date.now()}`;
+      }
+      lastDomain = domain;
+      stopBtn.disabled = false;
+      resumeBtn.disabled = true;
+      progressWrap.classList.remove('d-none');
+
+      const url = `/tool/subdomain/stream?domain=${encodeURIComponent(domain)}&scan_id=${encodeURIComponent(scanId)}&resume=${resume ? '1' : '0'}`;
+      source = new EventSource(url);
+      source.addEventListener('start', function (e) {
+        const data = JSON.parse(e.data);
+        totalEl.textContent = data.total;
+        outputEl.textContent = data.output;
+        summary.classList.remove('d-none');
+        controls.classList.remove('d-none');
+      });
+      source.addEventListener('cached', function (e) {
+        addRow(JSON.parse(e.data));
+      });
+      source.addEventListener('row', function (e) {
+        addRow(JSON.parse(e.data));
+      });
+      source.addEventListener('progress', function (e) {
+        const data = JSON.parse(e.data);
+        const pct = data.total ? Math.floor((data.current / data.total) * 100) : 0;
+        progressBar.style.width = `${pct}%`;
+        progressBar.textContent = `${pct}%`;
+      });
+      source.addEventListener('done', function () {
+        downloads.classList.remove('d-none');
+        stopStream();
+      });
+      source.addEventListener('stopped', function () {
+        resumeBtn.disabled = false;
+        stopStream();
+      });
+      source.addEventListener('error', function () {
+        stopStream();
+      });
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const domain = document.getElementById('domain').value.trim();
+      if (!domain) return;
+      startStream(domain, false);
+    });
+
+    sortSelect.addEventListener('change', renderRows);
+    filterSelect.addEventListener('change', renderRows);
+
+    if (historyLoad && historySelect) {
+      historyLoad.addEventListener('click', function () {
+        const scanId = historySelect.value;
+        if (!scanId) return;
+        stopStream();
+        resetTable();
+        controls.classList.remove('d-none');
+        downloads.classList.remove('d-none');
+        fetch(`/tool/subdomain/history?scan_id=${encodeURIComponent(scanId)}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.rows) {
+              data.rows.forEach((row) => addRow(row));
+            }
+          });
+      });
+    }
+
+    const downloadTxt = document.getElementById('download-txt');
+    const downloadCsv = document.getElementById('download-csv');
+
+    function downloadBlob(content, filename, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    if (downloadTxt) {
+      downloadTxt.addEventListener('click', function () {
+        const rows = getFilteredRows();
+        const lines = rows.map((row) => row.subdomain);
+        downloadBlob(lines.join('\n'), 'subdomains-filtered.txt', 'text/plain');
+      });
+    }
+
+    if (downloadCsv) {
+      downloadCsv.addEventListener('click', function () {
+        const rows = getFilteredRows();
+        const header = ['NO', 'SUBDOMAIN', 'IP', 'HOSTNAME', 'STATUS', 'PROVIDER'];
+        const lines = [header.join(',')];
+        rows.forEach((row, idx) => {
+          lines.push([
+            idx + 1,
+            row.subdomain,
+            row.ip,
+            row.hostname,
+            row.status,
+            row.provider
+          ].map((value) => `"${String(value).replace(/"/g, '""')}"`).join(','));
+        });
+        downloadBlob(lines.join('\n'), 'subdomains-filtered.csv', 'text/csv');
+      });
+    }
+  })();
+</script>
+{% endif %}
+{% endblock %}
